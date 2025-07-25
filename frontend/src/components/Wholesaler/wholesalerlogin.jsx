@@ -28,13 +28,13 @@ const WholesalerLogin = () => {
     if (loginWholesaler) {
       const updatedLogin = {
         ...loginWholesaler,
-        usertype: "Wholesaler", // for localStorage reference
+        usertype: "Wholesaler",
       };
       dispatch(LoginWholesaler(updatedLogin));
       localStorage.setItem("loginuser", JSON.stringify(updatedLogin));
       navigate("/wholesaler");
     } else {
-      toast.error("Invalid email or password");
+      toast.error("user not found!");
     }
 
     reset();
@@ -69,7 +69,6 @@ const WholesalerLogin = () => {
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>
 
-          {/* Password Field */}
           <div>
             <label className="text-sm font-medium text-gray-700">Password</label>
             <input
@@ -89,7 +88,6 @@ const WholesalerLogin = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <div className="pt-2">
             <button
               type="submit"
@@ -100,7 +98,6 @@ const WholesalerLogin = () => {
           </div>
         </form>
 
-        {/* Register Link */}
         <p className="text-center text-sm text-gray-600 mt-6">
           Don’t have an account?{" "}
           <span

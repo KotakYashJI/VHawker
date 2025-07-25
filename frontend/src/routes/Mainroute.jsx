@@ -7,8 +7,8 @@ const Create_product = lazy(()=> import('../components/Product/create_product'))
 const SingleProduct = lazy(()=>import('../components/Product/SingleProduct'));
 const Hawkerlogin = lazy(()=>import('../components/Hawker/hawkerlogin'));
 const Hawkerregister = lazy(()=>import('../components/Hawker/hawkerregister'));
-const Semiwholesalerregister = lazy(()=>import('../components/Wholesaler/wholesalerregister'));
-const Wholesalerregister = lazy(()=>import('../components/Semiwholesaler/Semisalerregister'));
+const Wholesalerregister = lazy(()=>import('../components/Wholesaler/wholesalerregister'));
+const Semiwholesalerregister = lazy(()=>import('../components/Semiwholesaler/Semisalerregister'));
 const Semiwholesalerlogin = lazy(()=>import('../components/Semiwholesaler/Semisalerlogin'));
 const Wholesalerlogin = lazy(()=>import('../components/Wholesaler/wholesalerlogin'));
 const Pagenotfound = lazy(()=>import('../pages/pagenotfound')); 
