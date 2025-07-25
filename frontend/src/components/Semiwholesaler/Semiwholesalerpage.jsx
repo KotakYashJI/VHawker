@@ -1,0 +1,157 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoadLoginuser } from '../../actions/Useraction';
+import { useNavigate } from 'react-router-dom';
+import { addtocart, LoadCartproducts } from '../../actions/Cartaction';
+import { GetallWholesalerProducts } from '../../actions/Wholesaleraction';
+import '../../styles/hideScrollbar.css';
+import { toast } from 'react-toastify';
+
+const Semiwholesaler = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loginuser = useSelector((state) => state.user.Loginuser);
+  const wholesalers = useSelector((state) => state.product.products);
+  const cartproducts = useSelector((state) => state.cart.Cart);
+
+  const [cartCount, setCartCount] = useState([]);
+  const [selectedWholesalers, setSelectedWholesalers] = useState([]);
+
+  useEffect(() => {
+    dispatch(LoadLoginuser());
+    dispatch(GetallWholesalerProducts());
+  }, [dispatch]);
+
+  const handleCart = (buyerid, product, sellerId) => {
+    const productId = product._id;
+    const currentCount = cartCount[productId] || 0;
+    const maxAllowed = Number(product.productquantity);
+
+    if (currentCount >= maxAllowed) {
+      toast.error(toast.error("You've reached the quantity limit for this product."));
+    }
+    else {
+      dispatch(addtocart(buyerid, product, sellerId));
+      setCartCount((prev) => ({
+        ...prev,
+        [productId]: currentCount + 1,
+      }));
+    }
+  };
+
+  const cityWholesalers = wholesalers?.filter(
+    (wholesaler) =>
+      wholesaler?.city?.toLowerCase() === loginuser?.city?.toLowerCase()
+  );
+
+  const visibleWholesalers =
+    selectedWholesalers.length === 0
+      ? cityWholesalers
+      : cityWholesalers.filter((wholesaler) =>
+        selectedWholesalers.includes(wholesaler._id)
+      );
+
+  useEffect(() => {
+    dispatch(LoadCartproducts());
+  }, []);
+
+  useEffect(() => {
+    const countmap = {};
+    cartproducts.forEach((product) => {
+      countmap[product.id] = product.productquantity;
+    })
+    setCartCount(countmap);
+  }, [cartproducts]);
+
+  const toggleWholesaler = (id) => {
+    setSelectedWholesalers((prev) =>
+      prev.includes(id) ? prev.filter((wid) => wid !== id) : [...prev, id]
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f5f5f5] p-4 flex flex-col md:flex-row gap-6">
+      <div className="w-full mt-20 md:w-1/5 bg-white rounded-xl p-4 shadow-md sticky top-6 md:h-fit max-h-[80vh] overflow-y-auto">
+        <h2 className="text-lg md:text-xl font-semibold text-[#222831] mb-4 text-center md:text-left">
+          Filter by Wholesaler
+        </h2>
+        <div className="space-y-2 pr-2">
+          {cityWholesalers?.map((wholesaler) => (
+            <div key={wholesaler._id} className="flex items-center">
+              <input
+                type="checkbox"
+                checked={selectedWholesalers.includes(wholesaler._id)}
+                onChange={() => toggleWholesaler(wholesaler._id)}
+                className="mr-2"
+              />
+              <label className="text-gray-700">{wholesaler.username}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-full md:w-4/5">
+        <div className="grid mt-20 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {visibleWholesalers
+            ?.flatMap((wholesaler) =>
+              wholesaler.products.map((product) => ({
+                ...product,
+                wholesalerName: wholesaler.username,
+                sellerId: wholesaler._id,
+                sellertype: wholesaler.usertype
+              }))
+            )
+            .map((product, index) => {
+              const quantityincart = cartCount[product.id] || 0;
+              const isAvaiable = quantityincart < product.productquantity;
+              return (
+                <div
+                  key={index}
+                  className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-[380px]"
+                >
+                  <img
+                    src={product.productimg}
+                    alt={product.productname}
+                    className="h-40 w-full object-cover rounded-t-2xl"
+                  />
+                  <div className="p-4 flex-1 flex flex-col justify-between text-[#393E46]">
+                    <div>
+                      <h2 className="text-lg font-semibold truncate">{product.productname}</h2>
+                      <p className="text-md">💰 ₹{product.productprice}</p>
+                      <p className="text-md">📦 Qty: {product.productquantity}</p>
+                      <p className="text-gray-600 mt-2 text-sm overflow-hidden line-clamp-2">
+                        {product.description.slice(0, 30)}
+                        <span
+                          onClick={() =>
+                            navigate(`/${loginuser.usertype.toLowerCase()}/product/${product.id}`)
+                          }
+                          className="text-blue-500 cursor-pointer text-sm"
+                        >
+                          ...more
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  {isAvaiable ? (
+                    <div className="px-4 pb-4">
+                      <button
+                        className="w-full py-2 cursor-pointer bg-[#00ADB5] text-white rounded-xl hover:bg-[#007B83] transition duration-300"
+                        onClick={() => handleCart(loginuser._id, product, product.sellerId)}
+                      >
+                        🛒 Add to Cart
+                      </button>
+                    </div>
+                  ) : (
+                    <span className='text-red-400 text-xl ml-[8%] mb-[5%]'>Not Available!</span>
+                  )}
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Semiwholesaler;
