@@ -12,7 +12,7 @@ const Semiwholesaler = () => {
   const navigate = useNavigate();
 
   const loginuser = useSelector((state) => state.user.Loginuser);
-  const wholesalers = useSelector((state) => state.product.products);
+  const wholesalers = useSelector((state) => state.wholesaler.Wholesalerproducts);
   const cartproducts = useSelector((state) => state.cart.Cart);
 
   const [cartCount, setCartCount] = useState([]);
