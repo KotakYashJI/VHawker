@@ -129,10 +129,17 @@ export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (d
     const buyertype = loginuser.usertype.toLowerCase();
 
     await API.post("/api/orders", { orderdata, paymentdetails });
-    await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
-    
-    if (buyertype == "semiwholesaler") {
-      await API.patch(`/api/semiwholesalers/${buyerid}/products`, orderdata);
+
+    if (sellertype.toLowerCase() == "semiwholesaler") {
+      if (buyertype == "hawker") {
+        await API.patch(`/api/semiwholesalers/${buyerid}/products`, { orderdata, buyertype });
+      }
+    }
+
+    if (sellertype.toLowerCase() == "wholesaler") {
+      if (buyertype == "semiwholesaler") {
+        await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
+      }
     }
 
     localStorage.removeItem("cart");
