@@ -130,10 +130,7 @@ export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (d
 
     await API.post("/api/orders", { orderdata, paymentdetails });
     await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
-
-    if (buyertype == "hawker") {
-      await API.patch(`/api/hawkers/${buyerid}/products`, orderdata);
-    }
+    
     if (buyertype == "semiwholesaler") {
       await API.patch(`/api/semiwholesalers/${buyerid}/products`, orderdata);
     }

@@ -67,6 +67,9 @@ router.patch("/:id/products", async (req, res) => {
         const orderproducts = req.body.orderdata;
 
         const semiwholesaler = await Semiwholesalermodel.findById(userid);
+        if (!semiwholesaler) {
+            return res.status(404).json({ message: "Semi-wholesaler not found" });
+        }
 
         let updatedProducts = [...semiwholesaler.products];
 
@@ -76,16 +79,17 @@ router.patch("/:id/products", async (req, res) => {
             if (index !== -1) {
                 const currentQty = Number(updatedProducts[index].productquantity);
                 const orderQty = Number(orderProduct.productquantity);
-                const updatedQty = Math.max(0, currentQty - orderQty);
+                const updatedQty = currentQty - orderQty;
 
                 updatedProducts[index] = {
                     ...updatedProducts[index],
                     productquantity: updatedQty,
                 };
             } else {
+                // Product not found - add it as new
                 updatedProducts.push({
                     ...orderProduct,
-                    productquantity: Math.max(0, Number(orderProduct.productquantity)),
+                    productquantity: Number(orderProduct.productquantity),
                 });
             }
         });
@@ -100,8 +104,7 @@ router.patch("/:id/products", async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-
-})
+});
 
 router.patch("/:id", async (req, res) => {
     try {
