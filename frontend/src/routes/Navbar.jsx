@@ -53,7 +53,7 @@ const Navbar = () => {
               <Link to={`/${user.usertype}`} className="hover:underline">{user.usertype}Page</Link>
             </>
           ) : (
-            <Link to="/admin/login" className="hover:underline">Admin</Link>
+            <Link to="/admin" className="hover:underline">Admin</Link>
           )}
         </div>
         <div className="flex items-center gap-6">

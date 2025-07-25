@@ -129,7 +129,6 @@ export const paymentgateway = (orderdata, paymentdetails) => async (dispatch) =>
     await API.post("/api/orders", { orderdata, paymentdetails });
     await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
 
-    // Clear cart after successful payment
     localStorage.removeItem("cart");
     dispatch(ClearCart());
     toast.success("Payment successful. Order placed!");

@@ -11,8 +11,8 @@ const AdminDashboard = () => {
   const contactdata = useSelector((state) => state.contact.Contacts);
   const [view, setView] = useState("orders");
 
-  const loginuser = useSelector((state) => state.user.Loginuser);
-
+  console.log(contactdata);
+  
   const handledelete = (id)=>{
     dispatch(deletecontact(id));
   }
@@ -85,10 +85,10 @@ const AdminDashboard = () => {
                 orderdata.map((order, index) => (
                   <tr key={index} className="border-b hover:bg-gray-50">
                     <td className="p-2 border">{order._id}</td>
-                    <td className="p-2 border">{order.buyername}</td>
-                    <td className="p-2 border">{order.sellername}</td>
-                    <td className="p-2 border">₹{order.totalamount}</td>
-                    <td className="p-2 border">{order.status}</td>
+                    <td className="p-2 border">{order.buyerid}</td>
+                    <td className="p-2 border">{order.sellerid}</td>
+                    <td className="p-2 border">₹{order.paymentdata[0].TotalBill}</td>
+                    <td className="p-2 border">Pending</td>
                     <td className="p-2 border">
                       {new Date(order.createdAt).toLocaleString()}
                     </td>
@@ -124,8 +124,8 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {contactdata.length > 0 ? (
-                  contactdata.map((contact, index) => (
+                {contactdata?.length > 0 ? (
+                  contactdata?.map((contact, index) => (
                     <tr key={index} className="border-b hover:bg-gray-50">
                       <td className="p-2 border">{contact.name}</td>
                       <td className="p-2 border">{contact.email}</td>
