@@ -89,7 +89,7 @@ const HawkerLogin = () => {
                         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </div>
 
-                    {/* Login Button */}
+
                     <div className="pt-2">
                         <button
                             type="submit"
@@ -100,7 +100,6 @@ const HawkerLogin = () => {
                     </div>
                 </form>
 
-                {/* Register Link */}
                 <p className="text-center text-xl text-gray-600 mt-6">
                     Don’t have an account?{" "}
                     <span

@@ -10,17 +10,19 @@ const Usertyperoute = ({ children, userType }) => {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
 
+  // Load login user if not already present
   useEffect(() => {
-    const checkLogin = async () => {
-      if (!loginuser?._id) {
+    const fetchUser = async () => {
+      if (!loginuser || !loginuser._id) {
         await dispatch(LoadLoginuser());
       }
       setLoading(false);
     };
 
-    checkLogin();
-  }, [dispatch, loginuser?._id]);
+    fetchUser();
+  }, [dispatch]);
 
+  // Once loading is done, check for authorization
   useEffect(() => {
     if (loading) return;
 
@@ -28,7 +30,7 @@ const Usertyperoute = ({ children, userType }) => {
     const expectedUserType = userType?.toLowerCase();
 
     if (!loginUserType) {
-      navigate(`/${userType}/login`, { replace: true });
+      navigate(`/${expectedUserType}/login`, { replace: true });
       return;
     }
 
@@ -39,6 +41,7 @@ const Usertyperoute = ({ children, userType }) => {
     }
   }, [loading, loginuser?.usertype, userType, navigate]);
 
+  // Show loading spinner
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -47,6 +50,7 @@ const Usertyperoute = ({ children, userType }) => {
     );
   }
 
+  // Render the protected route only if authorized
   return authorized ? children : null;
 };
 
