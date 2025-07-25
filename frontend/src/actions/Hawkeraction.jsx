@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { AddHawkers, LoadLoginhawker, Loadhawkers } from "../slices/Hawkerslice";
 import API from "../api";
+import { LoadLoginuser } from "./Useraction";
 
 export const registerhawker = (newhawker) => async (dispatch) => {
    try {
@@ -12,6 +13,7 @@ export const registerhawker = (newhawker) => async (dispatch) => {
             if (res?.data) {
                dispatch(AddHawkers(res.data));
                localStorage.setItem("loginuser", JSON.stringify(res.data.data));
+               dispatch(LoadLoginuser());
                toast.success("Registered Successfully");
             }
          }

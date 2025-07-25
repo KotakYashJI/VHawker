@@ -19,13 +19,19 @@ export const addtocart = (buyerid, product, sellerid) => async (dispatch) => {
     );
 
     if (existingIndex !== -1) {
-      existcart[existingIndex].productquantity += 1;
+      if (existcart[existingIndex].productquantity < existcart[existingIndex].maxquantity) {
+        existcart[existingIndex].productquantity += 1;
+      } else {
+        toast.warning("Reached max quantity");
+        return;
+      }
     } else {
       existcart.push({
         ...product,
         buyerid,
         sellerid,
         productquantity: 1,
+        maxquantity: product.productquantity,
         productprice: Number(product.productprice),
       });
     }
@@ -75,18 +81,6 @@ export const DecreaseQuantity = (index) => (dispatch) => {
   dispatch(LoadCart(cartproducts));
 };
 
-export const removefromcart = (id) => (dispatch) => {
-  try {
-    const products = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedproducts = products.filter((pr) => pr.id !== id);
-    localStorage.setItem("cart", JSON.stringify(updatedproducts));
-    dispatch(LoadCart(updatedproducts));
-    toast.error("Product removed from cart");
-  } catch (error) {
-    console.log("Remove from cart error:", error);
-  }
-};
-
 export const LoadCartproducts = () => async (dispatch) => {
   try {
     const cartproducts = JSON.parse(localStorage.getItem("cart")) || [];
@@ -126,22 +120,31 @@ export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (d
   try {
     const { sellerId, sellertype } = orderdata;
     const buyerid = loginuser._id;
-    const buyertype = loginuser.usertype.toLowerCase();
+    const buyertype = loginuser.usertype.toLowerCase();;
 
     await API.post("/api/orders", { orderdata, paymentdetails });
 
     if (sellertype.toLowerCase() === "semiwholesaler" && buyertype === "hawker") {
-      await API.patch(`/api/semiwholesalers/${sellerId}/products`, { orderdata, buyertype });
+      const ans = await API.patch(`/api/semiwholesalers/${sellerId}/products`, { orderdata, buyertype });
+      console.log(ans);
+
     }
 
     if (sellertype.toLowerCase() == "wholesaler" && buyertype == "semiwholesaler") {
-      await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
-      await API.patch(`/api/semiwholesalers/${buyerid}/products`, { buyertype, orderdata });
+      const order = await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
+      const ans = await API.patch(`/api/semiwholesalers/${buyerid}/products`, { buyertype, orderdata });
+      console.log(order);
+      console.log(ans);
+    }
+
+    if (sellertype.toLowerCase() == "wholesaler" && buyertype == "hawker") {
+      const order = await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
+      console.log(order);
     }
 
     localStorage.removeItem("cart");
     dispatch(ClearCart());
-    toast.success("Payment successful. Order placed!");
+    toast.success("Order placed!");
   } catch (error) {
     console.log("Payment error:", error);
     toast.error("Payment failed");

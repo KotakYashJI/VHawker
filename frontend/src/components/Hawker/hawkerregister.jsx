@@ -12,7 +12,6 @@ const hawkerregister = () => {
     const handleregister = (user) => {
         try {
             dispatch(registerhawker(user));
-            navigate("hawker/login");
         } catch (error) {
             console.log(error);
         }

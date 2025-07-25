@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { registerSemiwholesaler } from "../../actions/Semiwholesaleraction"
+import { useEffect } from 'react';
+import { LoadLoginuser } from '../../actions/Useraction';
 
 const semiwholesalerRegister = () => {
     const navigate = useNavigate();
@@ -12,13 +14,12 @@ const semiwholesalerRegister = () => {
     const handleregister = (user) => {
         try {
             dispatch(registerSemiwholesaler(user));
-            navigate("/semiwholesaler/login");
         } catch (error) {
             console.log(error);
         }
         reset();
     }
-
+    
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <div className="w-full max-w-4xl bg-white rounded-xl mt-[5%] shadow-lg p-8 md:p-12">

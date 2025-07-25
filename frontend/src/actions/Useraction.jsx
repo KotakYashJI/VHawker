@@ -30,9 +30,6 @@ export const LoadLoginuser = () => async (dispatch) => {
    try {
       const storedUser = JSON.parse(localStorage.getItem("loginuser"))||[];
 
-      console.log(storedUser);
-      
-
       if (storedUser.usertype == "admin") {
          dispatch(loadloginuser(storedUser));
          return;
@@ -43,8 +40,6 @@ export const LoadLoginuser = () => async (dispatch) => {
          return;
       }
       const usertype = storedUser.usertype.toLowerCase();
-
-      console.log(usertype);
 
       let res;
 
@@ -62,6 +57,8 @@ export const LoadLoginuser = () => async (dispatch) => {
             dispatch(loadloginuser([]));
             return;
       }
+      console.log(res.data.data);
+      
       dispatch(loadloginuser(res.data.data));
    } catch (error) {
       console.error("Load Login User Error:", error);

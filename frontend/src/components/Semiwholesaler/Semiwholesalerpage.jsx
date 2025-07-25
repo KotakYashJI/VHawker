@@ -13,6 +13,9 @@ const Semiwholesaler = () => {
 
   const loginuser = useSelector((state) => state.user.Loginuser);
   const wholesalers = useSelector((state) => state.wholesaler.wholesalerproducts);
+
+  console.log(wholesalers);
+
   const cartproducts = useSelector((state) => state.cart.Cart);
 
   const [cartCount, setCartCount] = useState({});
@@ -33,7 +36,7 @@ const Semiwholesaler = () => {
   }, [cartproducts]);
 
   const handleCart = (buyerid, product, sellerId) => {
-    const productId = product._id;
+    const productId = product.id;
     const currentCount = cartCount[productId] || 0;
     const maxAllowed = Number(product.productquantity);
 
@@ -57,8 +60,8 @@ const Semiwholesaler = () => {
     selectedWholesalers.length === 0
       ? cityWholesalers
       : cityWholesalers.filter((wholesaler) =>
-          selectedWholesalers.includes(wholesaler._id)
-        );
+        selectedWholesalers.includes(wholesaler._id)
+      );
 
   const productsToShow = visibleWholesalers?.flatMap((wholesaler) =>
     wholesaler.products.map((product) => ({
@@ -73,30 +76,35 @@ const Semiwholesaler = () => {
     <div className="min-h-screen bg-[#f4f4f4] flex flex-col md:flex-row gap-6 p-4">
       <div className="w-full md:w-1/5 mt-20 bg-white shadow-lg rounded-xl p-4 sticky top-6 h-fit max-h-[80vh] overflow-y-auto">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Filter by Wholesaler</h2>
-        {cityWholesalers?.map((wholesaler) => (
-          <div key={wholesaler._id} className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              checked={selectedWholesalers.includes(wholesaler._id)}
-              onChange={() => {
-                setSelectedWholesalers((prev) =>
-                  prev.includes(wholesaler._id)
-                    ? prev.filter((id) => id !== wholesaler._id)
-                    : [...prev, wholesaler._id]
-                );
-              }}
-              className="mr-2"
-            />
-            <label className="text-gray-700">{wholesaler.username}</label>
-          </div>
-        ))}
-      </div>
 
-      {/* PRODUCT GRID */}
+        {cityWholesalers?.length > 0 ? (
+          cityWholesalers.map((wholesaler) => (
+            <div key={wholesaler._id} className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                checked={selectedWholesalers.includes(wholesaler._id)}
+                onChange={() => {
+                  setSelectedWholesalers((prev) =>
+                    prev.includes(wholesaler._id)
+                      ? prev.filter((id) => id !== wholesaler._id)
+                      : [...prev, wholesaler._id]
+                  );
+                }}
+                className="mr-2"
+              />
+              <label className="text-gray-700">{wholesaler.username}</label>
+            </div>
+          ))
+        ) : (
+          <div className="text-gray-500 mt-2 text-sm text-center">
+            🚫 No wholesalers found in your city.
+          </div>
+        )}
+      </div>
       <div className="w-full md:w-4/5 mt-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {productsToShow?.map((product, index) => {
-            const quantityInCart = cartCount[product._id] || 0;
+            const quantityInCart = cartCount[product.id] || 0;
             const isAvailable = quantityInCart < product.productquantity;
 
             return (

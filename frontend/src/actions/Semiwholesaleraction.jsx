@@ -6,6 +6,7 @@ import {
   Loadsemiwholesalerproducts
 } from "../slices/Semiwholesalerslice";
 import API from "../api";
+import { LoadLoginuser } from "./Useraction";
 
 export const registerSemiwholesaler = (newsemiwholesaler) => async (dispatch) => {
   try {
@@ -17,6 +18,7 @@ export const registerSemiwholesaler = (newsemiwholesaler) => async (dispatch) =>
         if (res?.data) {
           dispatch(AddSemiwholesaler(res.data));
           localStorage.setItem("loginuser", JSON.stringify(res.data.data));
+          dispatch(LoadLoginuser());
           toast.success("Registered Successfully");
         }
       }
@@ -73,12 +75,12 @@ export const LogoutSemiwholesaler = () => async (dispatch) => {
 };
 
 export const GetallSemiwholesalerProducts = () => async (dispatch) => {
-   try {
-      const products = await API.get("/api/semiwholesalers/products");
-      dispatch(Loadsemiwholesalerproducts(products.data));
-   } catch (error) {
-      console.log(error);
-   }
+  try {
+    const products = await API.get("/api/semiwholesalers/products");
+    dispatch(Loadsemiwholesalerproducts(products.data));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const LoadAllSemiwholesaler = () => async (dispatch) => {

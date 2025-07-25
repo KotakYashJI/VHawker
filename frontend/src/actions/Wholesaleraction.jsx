@@ -3,6 +3,7 @@ import API from "../api";
 import { AddWholesaler, LoadLoginWholesaler, LoadWholesalers } from "../slices/Wholesalerslice";
 import { LoadSingleproduct } from "../slices/Productslice";
 import { Loadwholesalerproducts } from "../slices/Wholesalerslice";
+import { LoadLoginuser } from "./Useraction";
 
 export const registerwholesaler = (newwholesaler) => async (dispatch) => {
    try {
@@ -14,6 +15,7 @@ export const registerwholesaler = (newwholesaler) => async (dispatch) => {
             if (res?.data) {
                dispatch(AddWholesaler(res.data));
                localStorage.setItem("loginuser", JSON.stringify(res.data.data));
+               dispatch(LoadLoginuser());
                toast.success("Registered Successfully");
             }
          }

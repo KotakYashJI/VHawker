@@ -50,7 +50,6 @@ const Usertyperoute = ({ children, userType }) => {
     );
   }
 
-  // Render the protected route only if authorized
   return authorized ? children : null;
 };
 

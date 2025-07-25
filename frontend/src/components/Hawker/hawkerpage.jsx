@@ -15,7 +15,7 @@ const HawkerPage = () => {
   const loginuser = useSelector((state) => state.user.Loginuser);
   const wholesalerproducts = useSelector((state) => state.wholesaler.wholesalerproducts);
   const semiwholesalerproducts = useSelector((state) => state.semiwholesaler.semiwholesalerproducts);
-  const cartproducts = useSelector((state) => state.cart.Cart);
+  const cartproducts = useSelector((state) => state.cart.Cart);  
 
   const [cartCount, setCartCount] = useState([]);
   const [selectedWholesalers, setSelectedWholesalers] = useState([]);
@@ -36,7 +36,7 @@ const HawkerPage = () => {
   }, [cartproducts]);
 
   const handleCart = (buyerid, product, sellerId) => {
-    const productId = product._id;
+    const productId = product.id;
     const currentCount = cartCount[productId] || 0;
     const maxAllowed = Number(product.productquantity);
 
@@ -119,7 +119,7 @@ const HawkerPage = () => {
               }))
             )
             .map((product, index) => {
-              const quantityincart = cartCount[product._id] || 0;
+              const quantityincart = cartCount[product.id] || 0;
               const isAvailable = quantityincart < product.productquantity;
 
               return (
@@ -136,7 +136,7 @@ const HawkerPage = () => {
                     <div>
                       <h2 className="text-lg font-semibold truncate">{product.productname}</h2>
                       <p className="text-md">💰 ₹{product.productprice}</p>
-                      <p className="text-md">📦 Qty: {product.productquantity}</p>
+                      {product.productquantity>0 && <p className="text-md">📦 Qty: {product.productquantity}</p>}
                       <p className="text-gray-600 mt-2 text-sm overflow-hidden line-clamp-2">
                         {product.description.slice(0, 30)}
                         <span
@@ -160,7 +160,7 @@ const HawkerPage = () => {
                       </button>
                     </div>
                   ) : (
-                    <span className="text-red-400 text-xl ml-[8%] mb-[5%]">Not Available!</span>
+                    <span className="text-red-400 text-xl ml-[8%] mb-[10%]">Not Available!</span>
                   )}
                 </div>
               );

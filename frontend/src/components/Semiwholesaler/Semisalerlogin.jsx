@@ -4,36 +4,46 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { LoadAllSemiwholesaler, LoginSemiwholesaler } from "../../actions/Semiwholesaleraction";
-import { LoadLoginuser } from "../../actions/Useraction";
+import {
+  LoadAllSemiwholesaler,
+  LoginSemiwholesaler,
+} from "../../actions/Semiwholesaleraction";
 
 const SemiwholesalerLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const semiwholesalers = useSelector((state) => state.semiwholesaler.Semiwholesaler);
-  const loginuser = useSelector((state) => state.user.Loginuser);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handlelogin = (user) => {
-    const loginsemiwholesaler = semiwholesalers?.find((semiwholesaler) =>
-      semiwholesaler.email === user.email && semiwholesaler.password === user.password
+  const handlelogin = async (user) => {
+    const foundUser = semiwholesalers?.find(
+      (semi) =>
+        semi.email === user.email && semi.password === user.password
     );
 
-    if (loginsemiwholesaler) {
-      dispatch(LoginSemiwholesaler(loginsemiwholesaler));
-      navigate("/semiwholesaler");
+    if (foundUser) {
+      await dispatch(LoginSemiwholesaler(foundUser));
+      toast.success("Login successful");
+
+      // ✅ Navigate directly after login
+      navigate("/semiwholesaler", { replace: true });
     } else {
-      toast.error("User Not Found");
+      toast.error("User Not Found!");
     }
+
     reset();
   };
 
   useEffect(() => {
     dispatch(LoadAllSemiwholesaler());
-    dispatch(LoadLoginuser());
-    loginuser && loginuser.usertype && navigate(loginuser.usertype.toLowerCase())
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9] px-4 py-10">
@@ -60,6 +70,8 @@ const SemiwholesalerLogin = () => {
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>
+
+          {/* Password */}
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-700">
               Password
@@ -78,6 +90,7 @@ const SemiwholesalerLogin = () => {
             />
             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
           </div>
+
           <div className="pt-2">
             <button
               type="submit"
@@ -87,6 +100,7 @@ const SemiwholesalerLogin = () => {
             </button>
           </div>
         </form>
+
         <p className="text-center text-xl text-gray-600 mt-6">
           Don’t have an account?{" "}
           <span
