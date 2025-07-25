@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
 import API from "../api";
 import { AddWholesaler, LoadLoginWholesaler, LoadWholesalers } from "../slices/Wholesalerslice";
-import { LoadProducts, LoadSingleproduct } from "../slices/Productslice";
+import { LoadSingleproduct } from "../slices/Productslice";
+import { Loadwholesalerproducts } from "../slices/Wholesalerslice";
 
 export const registerwholesaler = (newwholesaler) => async (dispatch) => {
    try {
@@ -74,7 +75,7 @@ export const LoadAllWholesalers = () => async (dispatch) => {
 export const GetallWholesalerProducts = () => async (dispatch) => {
    try {
       const products = await API.get("/api/wholesalers/products");
-      dispatch(LoadProducts(products.data));
+      dispatch(Loadwholesalerproducts(products.data));
    } catch (error) {
       console.log(error);
    }

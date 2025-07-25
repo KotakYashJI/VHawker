@@ -16,6 +16,17 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.get("/products", async (req, res) => {
+    try {
+        const allsemiwholesalerproducts = await Semiwholesalermodel.find().populate("products");
+        res.json(allsemiwholesalerproducts);
+    } catch (error) {
+        res.json({
+            message: "no products found"
+        })
+    }
+})
+
 router.get("/:id/products", async (req, res) => {
     try {
         const userid = req.params.id;
@@ -74,7 +85,7 @@ router.patch("/:id/products", async (req, res) => {
 
         let updatedProducts = [...semiwholesaler.products];
 
-        orderdata.products.forEach((orderProduct) => {
+        orderdata.orderdata.forEach((orderProduct) => {
             const index = updatedProducts.findIndex((product) => product.id === orderProduct.id);
             const orderQty = Number(orderProduct.productquantity);
 

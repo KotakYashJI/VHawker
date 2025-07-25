@@ -3,6 +3,7 @@ import {
   AddSemiwholesaler,
   Loadloginsemiwholesaler,
   LoadSemiwholesalers,
+  Loadsemiwholesalerproducts
 } from "../slices/Semiwholesalerslice";
 import API from "../api";
 
@@ -69,6 +70,15 @@ export const LogoutSemiwholesaler = () => async (dispatch) => {
   } catch (error) {
     console.error("Logout Error:", error);
   }
+};
+
+export const GetallSemiwholesalerProducts = () => async (dispatch) => {
+   try {
+      const products = await API.get("/api/semiwholesalers/products");
+      console.log(products);
+   } catch (error) {
+      console.log(error);
+   }
 };
 
 export const LoadAllSemiwholesaler = () => async (dispatch) => {

@@ -4,6 +4,7 @@ import { LoadLoginuser } from '../../actions/Useraction';
 import { useNavigate } from 'react-router-dom';
 import { addtocart, LoadCartproducts } from '../../actions/Cartaction';
 import { GetallWholesalerProducts } from '../../actions/Wholesaleraction';
+import { GetallSemiwholesalerProducts } from '../../actions/Semiwholesaleraction';
 import '../../styles/hideScrollbar.css';
 import { toast } from 'react-toastify';
 
@@ -21,19 +22,36 @@ const HawkerPage = () => {
   useEffect(() => {
     dispatch(LoadLoginuser());
     dispatch(GetallWholesalerProducts());
+    dispatch(GetallSemiwholesalerProducts());
   }, [dispatch]);
 
   const handleCart = (buyerid, product, sellerId) => {
-    console.log(product);
-    
     const productId = product._id;
     const currentCount = cartCount[productId] || 0;
     const maxAllowed = Number(product.productquantity);
 
-    if (currentCount >= maxAllowed) {
-      toast.error("You've reached the quantity limit for this product.");
+    if (loginuser?.usertype === "wholesaler") {
+      toast.warn("Wholesalers are not allowed to purchase.");
+      return;
     }
-    else {
+
+    if (loginuser?.usertype === "semiwholesaler") {
+      if (currentCount + 1 > maxAllowed) {
+        toast.error("Cannot exceed available stock.");
+        return;
+      }
+
+      dispatch(addtocart(buyerid, product, sellerId));
+      setCartCount((prev) => ({
+        ...prev,
+        [productId]: currentCount + 1,
+      }));
+    } else {
+      if (maxAllowed - (currentCount + 1) < 0) {
+        toast.error("Not enough stock to decrease quantity.");
+        return;
+      }
+
       dispatch(addtocart(buyerid, product, sellerId));
       setCartCount((prev) => ({
         ...prev,
@@ -51,8 +69,8 @@ const HawkerPage = () => {
     selectedWholesalers.length === 0
       ? cityWholesalers
       : cityWholesalers.filter((wholesaler) =>
-        selectedWholesalers.includes(wholesaler._id)
-      );
+          selectedWholesalers.includes(wholesaler._id)
+        );
 
   useEffect(() => {
     dispatch(LoadCartproducts());
@@ -62,7 +80,7 @@ const HawkerPage = () => {
     const countmap = {};
     cartproducts.forEach((product) => {
       countmap[product.id] = product.productquantity;
-    })
+    });
     setCartCount(countmap);
   }, [cartproducts]);
 
@@ -101,12 +119,13 @@ const HawkerPage = () => {
                 ...product,
                 wholesalerName: wholesaler.username,
                 sellerId: wholesaler._id,
-                sellertype: wholesaler.usertype
+                sellertype: wholesaler.usertype,
               }))
             )
             .map((product, index) => {
-              const quantityincart = cartCount[product.id] || 0;
-              const isAvaiable = quantityincart < product.productquantity;
+              const quantityincart = cartCount[product._id] || 0;
+              const isAvailable = quantityincart < product.productquantity;
+
               return (
                 <div
                   key={index}
@@ -126,7 +145,7 @@ const HawkerPage = () => {
                         {product.description.slice(0, 30)}
                         <span
                           onClick={() =>
-                            navigate(`/${loginuser.usertype.toLowerCase()}/product/${product.id}`)
+                            navigate(`/${loginuser.usertype.toLowerCase()}/product/${product._id}`)
                           }
                           className="text-blue-500 cursor-pointer text-sm"
                         >
@@ -135,7 +154,7 @@ const HawkerPage = () => {
                       </p>
                     </div>
                   </div>
-                  {isAvaiable ? (
+                  {isAvailable ? (
                     <div className="px-4 pb-4">
                       <button
                         className="w-full py-2 cursor-pointer bg-[#00ADB5] text-white rounded-xl hover:bg-[#007B83] transition duration-300"
@@ -145,7 +164,7 @@ const HawkerPage = () => {
                       </button>
                     </div>
                   ) : (
-                    <span className='text-red-400 text-xl ml-[8%] mb-[5%]'>Not Available!</span>
+                    <span className="text-red-400 text-xl ml-[8%] mb-[5%]">Not Available!</span>
                   )}
                 </div>
               );

@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     Semiwholesaler: [],
-    LoginSemiwholesaler:[]
+    LoginSemiwholesaler:[],
+    semiwholesalerproducts:[]
 }
 
 export const Semiwholesalerslice = createSlice({
@@ -17,9 +18,12 @@ export const Semiwholesalerslice = createSlice({
         },
         Loadloginsemiwholesaler:(state,action)=>{
             state.LoginSemiwholesaler = action.payload;
-        }
+        },
+        Loadsemiwholesalerproducts:(state,action)=>{
+            state.semiwholesalerproducts = action.payload;
+        },
     }
 })
 
-export const {AddSemiwholesaler,LoadSemiwholesalers,Loadloginsemiwholesaler} = Semiwholesalerslice.actions;
+export const {AddSemiwholesaler,LoadSemiwholesalers,Loadloginsemiwholesaler,Loadsemiwholesalerproducts} = Semiwholesalerslice.actions;
 export default Semiwholesalerslice.reducer;
