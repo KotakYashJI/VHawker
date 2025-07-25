@@ -75,7 +75,7 @@ export const LogoutSemiwholesaler = () => async (dispatch) => {
 export const GetallSemiwholesalerProducts = () => async (dispatch) => {
    try {
       const products = await API.get("/api/semiwholesalers/products");
-      console.log(products);
+      dispatch(Loadsemiwholesalerproducts(products.data));
    } catch (error) {
       console.log(error);
    }
