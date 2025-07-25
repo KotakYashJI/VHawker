@@ -132,14 +132,14 @@ export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (d
 
     if (sellertype.toLowerCase() == "semiwholesaler") {
       if (buyertype == "hawker") {
-        await API.patch(`http://localhost:8080/api/semiwholesalers/${buyerid}/products`, { orderdata, buyertype });
+        await API.patch(`http://localhost:8080/api/semiwholesalers/${sellerId}/products`, { orderdata, sellertype });
       }
     }
 
     if (sellertype.toLowerCase() == "wholesaler") {
       if (buyertype == "semiwholesaler") {
         await API.patch(`http://localhost:8080/api/wholesalers/${sellerId}/products`, orderdata);
-        await API.patch(`http://localhost:8080/api/semiwholesalers/${buyerid}/products`, {buyertype,orderdata});
+        await API.patch(`http://localhost:8080/api/semiwholesalers/${buyerid}/products`, { buyertype, orderdata });
       }
     }
 
