@@ -64,7 +64,12 @@ router.get("/:id", async (req, res) => {
 router.patch("/:id/products", async (req, res) => {
     try {
         const userId = req.params.id;
-        const { orderdata, buyertype } = req.body;
+        const orderdata = req.body.orderdata;
+        const buyertype = req.body.buyertype;
+
+        console.log(orderdata);
+        console.log(buyertype);
+
 
         const semiwholesaler = await Semiwholesalermodel.findById(userId);
         if (!semiwholesaler) {
@@ -73,7 +78,7 @@ router.patch("/:id/products", async (req, res) => {
 
         let updatedProducts = [...semiwholesaler.products];
 
-        orderdata.forEach((orderProduct) => {
+        orderdata.array.forEach(orderProduct => {
             const index = updatedProducts.findIndex((product) => product.id === orderProduct.id);
             const orderQty = Number(orderProduct.productquantity);
 
