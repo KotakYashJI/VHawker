@@ -13,7 +13,7 @@ const SemiWholesalerschema = new mongoose.Schema({
         type: String,
         required: true
     },
-    ProductStore: [],
+    products: [],
     usertype: {
         type: String,
         default: "Semiwholesaler"

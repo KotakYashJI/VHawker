@@ -122,12 +122,21 @@ export const LoadCartproducts = () => async (dispatch) => {
   }
 };
 
-export const paymentgateway = (orderdata, paymentdetails) => async (dispatch) => {
+export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (dispatch) => {
   try {
     const { sellerId, sellertype } = orderdata;
+    const buyerid = loginuser._id;
+    const buyertype = loginuser.usertype.toLowerCase();
 
     await API.post("/api/orders", { orderdata, paymentdetails });
     await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
+
+    if (buyertype == "hawker") {
+      await API.patch(`/api/hawkers/${buyerid}/products`, orderdata);
+    }
+    if (buyertype == "semiwholesaler") {
+      await API.patch(`/api/semiwholesalers/${buyerid}/products`, orderdata);
+    }
 
     localStorage.removeItem("cart");
     dispatch(ClearCart());

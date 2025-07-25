@@ -55,7 +55,7 @@ const PaymentPage = () => {
     }
 
     alert(`Payment successful using ${paymentMethod === 'upi' ? 'UPI' : 'Cash on Delivery'}!`);
-    dispatch(paymentgateway(OrderData,paymentdetails));
+    dispatch(paymentgateway(loginuser,OrderData,paymentdetails));
     localStorage.removeItem('cart');
     navigate("/");
   };

@@ -90,7 +90,7 @@ const AdminDashboard = () => {
                     <td className="p-2 border">₹{order.paymentdata[0].TotalBill}</td>
                     <td className="p-2 border">Pending</td>
                     <td className="p-2 border">
-                      {new Date(order.createdAt).toLocaleString()}
+                      {order.orderdate}
                     </td>
                   </tr>
                 ))

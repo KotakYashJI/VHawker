@@ -1,29 +1,28 @@
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
+import { lazy } from 'react'
 import Navbar from './Navbar'
 import Home from '../pages/Home'
 import About from '../pages/About'
-import Userregister from '../auth/userregister'
-import Userlogin from '../auth/userlogin'
-import Create_product from '../components/Product/create_product'
-import Authroute from './authroute'
-import SingleProduct from '../components/Product/SingleProduct'
-import Hawkerlogin from '../components/Hawker/hawkerlogin'
-import Hawkerregister from '../components/Hawker/hawkerregister'
-import SemiwholesalerRegister from '../components/Semiwholesaler/Semisalerregister'
-import Semiwholesalerlogin from '../components/Semiwholesaler/Semisalerlogin'
-import Wholesalerlogin from '../components/Wholesaler/wholesalerlogin'
-import Wholesalerregister from '../components/Wholesaler/wholesalerregister'
-import Pagenotfound from "../pages/pagenotfound"
-import Usertyperoute from './usertyperoute'
-import Unauthroute from './unauthroute'
-import Adminlogin from "../components/Admin/adminlogin"
-import Adminpage from "../components/Admin/adminpage";
-import Semiwholesalerpage from '../components/Semiwholesaler/Semiwholesalerpage'
-import Hawkerpage from '../components/Hawker/hawkerpage'
-import Wholesalerpage from '../components/Wholesaler/wholesalerpage'
-import Cartpage from '../components/Product/cartpage'
-import Paymentpage from '../components/Product/paymentpage'
-import ContactPage from '../pages/contactpage'
+const Create_product = lazy(()=> import('../components/Product/create_product'));
+const SingleProduct = lazy(()=>import('../components/Product/SingleProduct'));
+const Hawkerlogin = lazy(()=>import('../components/Hawker/hawkerlogin'));
+const Hawkerregister = lazy(()=>import('../components/Hawker/hawkerregister'));
+const Semiwholesalerregister = lazy(()=>import('../components/Wholesaler/wholesalerregister'));
+const Wholesalerregister = lazy(()=>import('../components/Semiwholesaler/Semisalerregister'));
+const Semiwholesalerlogin = lazy(()=>import('../components/Semiwholesaler/Semisalerlogin'));
+const Wholesalerlogin = lazy(()=>import('../components/Wholesaler/wholesalerlogin'));
+const Pagenotfound = lazy(()=>import('../pages/pagenotfound')); 
+const Usertyperoute = lazy(()=>import('./usertyperoute')); 
+const Unauthroute = lazy(()=>import('./unauthroute'));
+const Adminlogin = lazy(()=>import('../components/Admin/adminlogin'));
+const Adminpage = lazy(()=>import('../components/Admin/adminpage'));
+const Semiwholesalerpage = lazy(()=>import('../components/Semiwholesaler/Semiwholesalerpage'));
+const Hawkerpage = lazy(()=>import('../components/Hawker/hawkerpage'));
+const Wholesalerpage = lazy(()=>import('../components/Wholesaler/wholesalerpage'));
+const Cartpage = lazy(()=>import('../components/Product/cartpage'));
+const Paymentpage = lazy(()=>import('../components/Product/paymentpage'));
+const ContactPage = lazy(()=>import('../pages/contactpage'));
+const Authroute = lazy(()=>import('./authroute')); 
 
 const Mainroute = () => {
   return (
@@ -51,7 +50,6 @@ const Mainroute = () => {
           />
           <Route path='/about' element={<About />} />
           <Route path='/payment' element={<Paymentpage />} />
-          <Route path='/register' element={<Userregister />} />
 
           {/* Admin Routes */}
           <Route path='/admin/login' element={<Unauthroute><Adminlogin /></Unauthroute>} />
@@ -76,7 +74,7 @@ const Mainroute = () => {
             }
           />
           {/* Semiwholesaler Routes */}
-          <Route path='/semiwholesaler/register' element={<Unauthroute><SemiwholesalerRegister /></Unauthroute>} />
+          <Route path='/semiwholesaler/register' element={<Unauthroute><Semiwholesalerregister /></Unauthroute>} />
           <Route path='/semiwholesaler/login' element={<Unauthroute><Semiwholesalerlogin /></Unauthroute>} />
           <Route
             path='/semiwholesaler'
@@ -87,7 +85,7 @@ const Mainroute = () => {
             }
           />
           {/* Wholesaler Routes */}
-          <Route path='/wholesaler/register' element={<Unauthroute><Wholesalerregister /></Unauthroute>} />
+          <Route path='/wholesaler/register' element={<Unauthroute><Wholesalerregister/></Unauthroute>} />
           <Route path='/wholesaler/login' element={<Unauthroute><Wholesalerlogin /></Unauthroute>} />
           <Route
             path='/wholesaler'

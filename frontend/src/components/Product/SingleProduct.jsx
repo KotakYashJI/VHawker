@@ -135,7 +135,7 @@ const SingleProduct = () => {
             {loginuser.usertype === "Wholesaler" &&
                <button
                   onClick={() => { handeldelete(product.id) }}
-                  className="w-[45%] py-2 absolute bottom-[9.5%] right-[3%] cursor-pointer text-white bg-red-500 hover:bg-red-600 rounded-lg font-medium transition duration-300"
+                  className="w-[45%] py-2 absolute bottom-[2.5%] right-[3%] cursor-pointer text-white bg-red-500 hover:bg-red-600 rounded-lg font-medium transition duration-300"
                >
                   Delete
                </button>
