@@ -79,7 +79,7 @@ router.patch("/:id/products", async (req, res) => {
             if (index !== -1) {
                 const currentQty = Number(updatedProducts[index].productquantity);
                 const orderQty = Number(orderProduct.productquantity);
-                const updatedQty = currentQty - orderQty;
+                const updatedQty = currentQty + orderQty;
 
                 updatedProducts[index] = {
                     ...updatedProducts[index],
