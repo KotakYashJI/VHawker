@@ -71,7 +71,6 @@ const Semiwholesaler = () => {
 
   return (
     <div className="min-h-screen bg-[#f4f4f4] flex flex-col md:flex-row gap-6 p-4">
-      {/* FILTER SECTION */}
       <div className="w-full md:w-1/5 mt-20 bg-white shadow-lg rounded-xl p-4 sticky top-6 h-fit max-h-[80vh] overflow-y-auto">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Filter by Wholesaler</h2>
         {cityWholesalers?.map((wholesaler) => (
