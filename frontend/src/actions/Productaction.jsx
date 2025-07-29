@@ -37,7 +37,6 @@ export const singleproduct = (productId, sellertype,sellerid) => async (dispatch
     if (sellertype === "wholesaler") {
         try {
             const singleproduct = await API.get(`/api/wholesalers/${sellerid}/products/${productId}`);
-            console.log(singleproduct);
             dispatch(LoadSingleproduct(singleproduct.data));
         } catch (error) {
             console.log(error);
@@ -46,8 +45,7 @@ export const singleproduct = (productId, sellertype,sellerid) => async (dispatch
     if (sellertype === "semiwholesaler") {
         try {
             const singleproduct = await API.get(`/api/semiwholesalers/${sellerid}/products/${productId}`);
-            console.log(singleproduct);
-            dispatch(LoadSingleproduct(singleproduct));
+            dispatch(LoadSingleproduct(singleproduct.data));
         } catch (error) {
             console.log(error);
         }

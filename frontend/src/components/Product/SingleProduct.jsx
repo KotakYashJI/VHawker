@@ -13,7 +13,6 @@ const SingleProduct = () => {
    
    const product = useSelector((state) => state.product.singleproduct);
    const loginuser = useSelector((state) => state.user.Loginuser);
-   console.log(loginuser.usertype);
 
    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
@@ -43,7 +42,6 @@ const SingleProduct = () => {
    }, [product, reset]);
 
    useEffect(() => {
-      console.log("useeffect");
    }, [sellertype, productId])
 
    return (

@@ -21,7 +21,7 @@ router.get("/:sellerid/products/:id", async (req, res) => {
         const productid = req.params.id;
         const sellerid = req.params.sellerid;
         const crrwholesaler = await Wholesalermodel.find({ _id: sellerid });
-        crrwholesaler.products.filter((crrproduct) => {
+        crrwholesaler[0].products.filter((crrproduct) => {
             if (crrproduct.id === productid) {
                 res.status(201).json(crrproduct);
             }

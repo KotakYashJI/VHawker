@@ -30,7 +30,7 @@ const wholesalerpage = () => {
                     <p className="text-md mb-1">📦 Qty: {product.productquantity}</p>
                     :<span className='text-red-400'>Not Availble</span>}
                     <p className="text-md mb-3 text-gray-600">
-                      {product.description?.slice(0, 30)}<span onClick={() => navigate(`/${loginuser.usertype.toLowerCase()}/product/${product.id}`)} className="text-blue-500 text-xl cursor-pointer">...more</span>
+                      {product.description?.slice(0, 30)}<span onClick={() => navigate(`/${loginuser.usertype.toLowerCase()}/${loginuser._id}/product/${product.id}`)} className="text-blue-500 text-xl cursor-pointer">...more</span>
                     </p>
                   </div>
                 </div>

@@ -32,7 +32,12 @@ router.get("/:sellerid/products/:id", async (req, res) => {
         const productid = req.params.id;
         const sellerid = req.params.sellerid;
         const crrsemiwholesaler = await Semiwholesalermodel.find({ _id: sellerid });
-        res.status(201).json(crrsemiwholesaler);
+        console.log(crrsemiwholesaler[0].products);
+        crrsemiwholesaler[0].products.filter((crrproduct) => {
+            if (crrproduct.id === productid) {
+                res.status(201).json(crrproduct);
+            }
+        })
     } catch (error) {
         res.status(500).json({
             message: error.message

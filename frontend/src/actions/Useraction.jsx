@@ -57,7 +57,6 @@ export const LoadLoginuser = () => async (dispatch) => {
             dispatch(loadloginuser([]));
             return;
       }
-      console.log(res.data.data);
       
       dispatch(loadloginuser(res.data.data));
    } catch (error) {
