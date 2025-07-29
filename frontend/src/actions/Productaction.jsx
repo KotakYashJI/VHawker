@@ -33,7 +33,7 @@ export const Loadproducts = () => async (dispatch) => {
     }
 }
 
-export const singleproduct = (productId, sellertyp,sellerid) => async (dispatch) => {
+export const singleproduct = (productId, sellertype,sellerid) => async (dispatch) => {
     if (sellertype === "wholesaler") {
         try {
             const singleproduct = await API.get(`/api/wholesalers/${sellerid}/products/${productId}`);
