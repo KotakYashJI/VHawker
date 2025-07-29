@@ -86,6 +86,7 @@ export const GetallSemiwholesalerProducts = () => async (dispatch) => {
 export const LoadAllSemiwholesaler = () => async (dispatch) => {
   try {
     const res = await API.get("/api/semiwholesalers");
+    console.log(res);
     dispatch(LoadSemiwholesalers(res.data));
   } catch (error) {
     console.error("Fetching Semiwholesalers Error:", error);

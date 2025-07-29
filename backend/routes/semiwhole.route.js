@@ -60,6 +60,7 @@ router.get("/:id/products", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const semisemiwholesalers = await Semiwholesalermodel.find();
+        console.log(semisemiwholesalers);
         res.status(200).json(semisemiwholesalers);
     } catch (error) {
         console.log(error);

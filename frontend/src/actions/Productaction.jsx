@@ -51,7 +51,6 @@ export const singleproduct = (productId, sellertype) => async (dispatch) => {
             console.log(error);
         }
     }
-
 }
 
 export const UpdateProduct = (id, loginuser, product) => async (dispatch) => {
