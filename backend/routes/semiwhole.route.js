@@ -27,6 +27,24 @@ router.get("/products", async (req, res) => {
     }
 })
 
+router.get("/products/:id", async (req, res) => {
+    try {
+        const productid = req.params.id;
+        const allsemiwholesaler = await Semiwholesalermodel.find();
+        allsemiwholesaler.find((semiwholproduct) => {
+            semiwholproduct.products.filter((crrproduct) => {
+                if (crrproduct.id === productid) {
+                    res.status(201).json(crrproduct);
+                }
+            })
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+})
+
 router.get("/:id/products", async (req, res) => {
     try {
         const userid = req.params.id;
@@ -95,7 +113,7 @@ router.patch("/:id/products", async (req, res) => {
                 const updatedQty =
                     buyertype === "semiwholesaler"
                         ? currentQty + orderQty
-                        : currentQty - orderQty;
+                        : currentQty > 0 ? currentQty - orderQty : 0;
 
                 updatedProducts[index] = {
                     ...updatedProducts[index],

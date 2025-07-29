@@ -41,11 +41,9 @@ const Mainroute = () => {
             }
           />
           <Route
-            path='/:usertype/product/:productId'
+            path='/:sellertype/product/:productId'
             element={
-              <Authroute>
-                <SingleProduct />
-              </Authroute>
+              <SingleProduct />
             }
           />
           <Route path='/about' element={<About />} />
@@ -76,7 +74,7 @@ const Mainroute = () => {
               </Usertyperoute>
             }
           />
-          
+
           <Route path='/semiwholesaler/register' element={<Unauthroute><Semiwholesalerregister /></Unauthroute>} />
           <Route path='/semiwholesaler/login' element={<Unauthroute><Semiwholesalerlogin /></Unauthroute>} />
           <Route

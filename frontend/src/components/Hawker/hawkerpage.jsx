@@ -141,7 +141,7 @@ const HawkerPage = () => {
                         {product.description.slice(0, 30)}
                         <span
                           onClick={() =>
-                            navigate(`/${loginuser.usertype.toLowerCase()}/product/${product.id}`)
+                            navigate(`/${product.sellertype.toLowerCase()}/product/${product.id}`)
                           }
                           className="text-blue-500 cursor-pointer text-sm"
                         >

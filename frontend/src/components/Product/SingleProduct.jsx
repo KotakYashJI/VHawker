@@ -9,8 +9,8 @@ import { LoadLoginuser } from '../../actions/Useraction';
 const SingleProduct = () => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const { userId, productId } = useParams();
-
+   const { sellertype, productId } = useParams()
+   
    const product = useSelector((state) => state.product.singleproduct);
    const loginuser = useSelector((state) => state.user.Loginuser);
    console.log(loginuser.usertype);
@@ -27,7 +27,7 @@ const SingleProduct = () => {
    }
 
    useEffect(() => {
-      dispatch(singleproduct(productId, loginuser));
+      dispatch(singleproduct(productId, sellertype));
       dispatch(LoadLoginuser());
    }, []);
 
@@ -44,7 +44,7 @@ const SingleProduct = () => {
 
    useEffect(() => {
       console.log("useeffect");
-   }, [userId, productId])
+   }, [sellertype, productId])
 
    return (
       <div className="min-h-screen w-full px-4 py-8 bg-[#f5f7fa] flex flex-col md:flex-row justify-center items-start gap-8">

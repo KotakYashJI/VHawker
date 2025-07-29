@@ -33,14 +33,25 @@ export const Loadproducts = () => async (dispatch) => {
     }
 }
 
-export const singleproduct = (productId) => async (dispatch) => {
-    try {
-        const singleproduct = await API.get(`http://localhost:8080/api/wholesalers/products/${productId}`);
-        console.log(singleproduct);
-        dispatch(LoadSingleproduct(singleproduct.data));
-    } catch (error) {
-        console.log(error);
+export const singleproduct = (productId, sellertype) => async (dispatch) => {
+    if (sellertype === "wholesaler") {
+        try {
+            const singleproduct = await API.get(`http://localhost:8080/api/wholesalers/products/${productId}`);
+            console.log(singleproduct);
+            dispatch(LoadSingleproduct(singleproduct.data));
+        } catch (error) {
+            console.log(error);
+        }
     }
+    if (sellertype === "semiwholesaler") {
+        try {
+            const singleproduct = await API.get(`http://localhost:8080/api/semiwholesalers/products/${productId}`);
+            dispatch(LoadSingleproduct(singleproduct.data));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 }
 
 export const UpdateProduct = (id, loginuser, product) => async (dispatch) => {
