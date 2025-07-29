@@ -126,7 +126,7 @@ const Semiwholesaler = () => {
                       {product.description?.slice(0, 30)}
                       <span
                         onClick={() =>
-                          navigate(`/${loginuser.usertype.toLowerCase()}/${product.sellerId}/product/${product.id}`)
+                          navigate(`/${product.sellertype.toLowerCase()}/${product.sellerId}/product/${product.id}`)
                         }
                         className="text-blue-500 cursor-pointer"
                       >

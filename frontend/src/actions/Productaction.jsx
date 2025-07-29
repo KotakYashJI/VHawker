@@ -55,9 +55,9 @@ export const singleproduct = (productId, sellertype,sellerid) => async (dispatch
 export const UpdateProduct = (id, loginuser, product) => async (dispatch) => {
     if (loginuser.usertype == "Wholesaler") {
         try {
-            const wholesalerproduct = await API.patch(`/api/wholesalers/${loginuser._id}/products/${id}`, product);
+            await API.patch(`/api/wholesalers/${loginuser._id}/products/${id}`, product);
             const singleproduct = await API.get(`/api/wholesalers/${loginuser._id}/products/${id}`);
-            dispatch(LoadSingleproduct(singleproduct.data.data));
+            dispatch(LoadSingleproduct(singleproduct.data));
             toast.success("product updated");
         } catch (error) {
             console.log(error);
