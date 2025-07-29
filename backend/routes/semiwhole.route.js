@@ -27,16 +27,15 @@ router.get("/products", async (req, res) => {
     }
 })
 
-router.get("/products/:id", async (req, res) => {
+router.get("/:sellerid/products/:id", async (req, res) => {
     try {
         const productid = req.params.id;
-        const allsemiwholesaler = await Semiwholesalermodel.find();
-        allsemiwholesaler.find((semiwholproduct) => {
-            semiwholproduct.products.filter((crrproduct) => {
-                if (crrproduct.id === productid) {
-                    res.status(201).json(crrproduct);
-                }
-            })
+        const sellerid = req.params.sellerid;
+        const crrsemiwholesaler = await Semiwholesalermodel.find({ _id: sellerid });
+        crrsemiwholesaler.products.filter((crrproduct) => {
+            if (crrproduct.id === productid) {
+                res.status(201).json(crrproduct);
+            }
         })
     } catch (error) {
         res.status(500).json({

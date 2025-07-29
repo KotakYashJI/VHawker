@@ -34,8 +34,7 @@ const HawkerLogin = () => {
         }
         reset();
     };
-
-    // ✅ On first load or refresh, check localStorage
+    
     useEffect(() => {
         dispatch(LoadAllHawkers());
         const storedUser = JSON.parse(localStorage.getItem("loginuser"));

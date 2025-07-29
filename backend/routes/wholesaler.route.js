@@ -16,21 +16,20 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/products/:id", async (req, res) => {
+router.get("/:sellerid/products/:id", async (req, res) => {
     try {
         const productid = req.params.id;
-    const allwholesaler = await Wholesalermodel.find();
-    allwholesaler.find((wholproduct) => {
-        wholproduct.products.filter((crrproduct) => {
+        const sellerid = req.params.sellerid;
+        const crrwholesaler = await Wholesalermodel.find({ _id: sellerid });
+        crrwholesaler.products.filter((crrproduct) => {
             if (crrproduct.id === productid) {
                 res.status(201).json(crrproduct);
             }
         })
-    })   
     } catch (error) {
-      res.status(500).json({
-        message:error.message
-      })  
+        res.status(500).json({
+            message: error.message
+        })
     }
 })
 

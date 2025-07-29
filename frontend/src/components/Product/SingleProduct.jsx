@@ -9,7 +9,7 @@ import { LoadLoginuser } from '../../actions/Useraction';
 const SingleProduct = () => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const { sellertype, productId } = useParams()
+   const { sellertype,sellerid, productId } = useParams()
    
    const product = useSelector((state) => state.product.singleproduct);
    const loginuser = useSelector((state) => state.user.Loginuser);
@@ -27,7 +27,7 @@ const SingleProduct = () => {
    }
 
    useEffect(() => {
-      dispatch(singleproduct(productId, sellertype));
+      dispatch(singleproduct(productId, sellertype,sellerid));
       dispatch(LoadLoginuser());
    }, []);
 
