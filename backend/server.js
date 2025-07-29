@@ -18,7 +18,7 @@ const app = express();
 connectdatabase();
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: process.env.CLIENT_URL || "*",
     credentials: true
 }));
 
