@@ -32,6 +32,8 @@ router.get("/:sellerid/products/:id", async (req, res) => {
         const productid = req.params.id;
         const sellerid = req.params.sellerid;
         const crrsemiwholesaler = await Semiwholesalermodel.find({ _id: sellerid });
+        console.log(crrsemiwholesaler);
+
         crrsemiwholesaler.products.filter((crrproduct) => {
             if (crrproduct.id === productid) {
                 res.status(201).json(crrproduct);
