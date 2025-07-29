@@ -73,7 +73,7 @@ export const Logoutuser = () => async (dispatch) => {
 
 export const LoadAllHawkers = () => async (dispatch) => {
    try {
-      const hawkers = await API.get("/api/hawkers");
+      const hawkers = await API.get("/hawkers");
       dispatch(Loadhawkers(hawkers.data));
    } catch (error) {
       console.error("Fetching Hawkers Error:", error);
