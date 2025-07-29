@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LoadAllHawkers } from "../../actions/Hawkeraction";
+import { LoadAllHawkers, LoginHawker } from "../../actions/Hawkeraction";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -27,7 +27,7 @@ const HawkerLogin = () => {
                 _id: loginhawker._id,
                 usertype: "hawker",
             };
-            localStorage.setItem("loginuser", JSON.stringify(userdata)); // ✅ store in localStorage
+            dispatch(LoginHawker(userdata));
             navigate("/hawker", { replace: true });
         } else {
             toast.error("User Not Found!");
