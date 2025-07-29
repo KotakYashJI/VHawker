@@ -41,7 +41,7 @@ const Mainroute = () => {
             }
           />
           <Route
-            path='/:sellertype/product/:productId'
+            path='/:sellertype/:sellerid/product/:productId'
             element={
               <SingleProduct />
             }
