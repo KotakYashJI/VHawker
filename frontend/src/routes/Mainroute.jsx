@@ -23,6 +23,7 @@ const Cartpage = lazy(() => import('../components/Product/cartpage'));
 const Paymentpage = lazy(() => import('../components/Product/paymentpage'));
 const ContactPage = lazy(() => import('../pages/contactpage'));
 const Authroute = lazy(() => import('./authroute'));
+const Loginuserproducts = lazy(()=> import("../components/Product/loginuserproducts"));
 
 const Mainroute = () => {
   return (
@@ -48,6 +49,7 @@ const Mainroute = () => {
           />
           <Route path='/about' element={<About />} />
           <Route path='/payment' element={<Paymentpage />} />
+          <Route path='/:usertype/products' element={<Loginuserproducts />} />
 
           <Route path='/admin/login' element={<Unauthroute><Adminlogin /></Unauthroute>} />
           <Route

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ShoppingCart } from 'lucide-react';
+import { crruserproducts } from "../actions/Productaction";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -20,8 +21,15 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(Logoutuser());
+    setUserProfileOpen((prev) => !prev);
     navigate('/');
   };
+
+  const handleuserproducts = (user) => {
+    dispatch(crruserproducts(user));
+    setUserProfileOpen((prev) => !prev);
+    navigate(`${user.usertype.toLowerCase()}/products`);
+  }
 
   const toggleMenu = () => {
     setMenuOpen(true);
@@ -108,7 +116,16 @@ const Navbar = () => {
         <div className="w-64 absolute top-20 right-4 rounded-xl border border-gray-300 bg-white shadow-lg p-4 z-50">
           <h1 className="text-lg font-semibold text-gray-800">👤 {user?.username}</h1>
           <h2 className="text-sm text-gray-600">
-            Role: <span className="capitalize font-medium">{user?.usertype}</span>
+            <div className='flex flex-col mt-2'>
+              <span>
+                Role: <span className="capitalize font-medium">{user?.usertype}</span>
+              </span>
+              {user.usertype !== "Wholesaler" && <span>
+                Products : <span
+                  onClick={() => handleuserproducts(user)}
+                  className='capitalize font-medium cursor-pointer hover:text-blue-400'>products</span>
+              </span>}
+            </div>
           </h2>
           <button
             onClick={handleLogout}

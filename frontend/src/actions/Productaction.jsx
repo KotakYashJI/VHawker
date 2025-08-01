@@ -33,7 +33,7 @@ export const Loadproducts = () => async (dispatch) => {
     }
 }
 
-export const singleproduct = (productId, sellertype,sellerid) => async (dispatch) => {
+export const singleproduct = (productId, sellertype, sellerid) => async (dispatch) => {
     if (sellertype === "wholesaler") {
         try {
             const singleproduct = await API.get(`/api/wholesalers/${sellerid}/products/${productId}`);
@@ -62,6 +62,14 @@ export const UpdateProduct = (id, loginuser, product) => async (dispatch) => {
         } catch (error) {
             console.log(error);
         }
+    }
+}
+
+export const crruserproducts = (user) => async (dispatch) => {
+    try {
+        await dispatch(LoadProducts(user.products));
+    } catch (error) {
+        console.log(error);
     }
 }
 
