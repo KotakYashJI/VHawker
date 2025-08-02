@@ -74,7 +74,7 @@ const SingleProduct = () => {
                <div>
                   <input
                      type="text"
-                     disabled={loginuser.usertype !== "Wholesaler"}
+                    // disabled={loginuser.usertype !== "Wholesaler"}
                      placeholder="Product Image URL"
                      className="w-full h-12 text-xl px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
                      {...register("productimg", { required: "Image is required" })}
@@ -84,7 +84,6 @@ const SingleProduct = () => {
                <div>
                   <input
                      type="text"
-                     disabled={loginuser.usertype !== "Wholesaler"}
                      placeholder="Product Name"
                      className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-xl focus:ring-2 focus:ring-blue-400 outline-none"
                      {...register("productname", { required: "Name is required" })}
@@ -104,7 +103,7 @@ const SingleProduct = () => {
                <div>
                   <input
                      type="number"
-                     disabled={loginuser.usertype !== "Wholesaler"}
+                     //disabled={loginuser.usertype !== "Wholesaler"}
                      placeholder="Product Quantity"
                      className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-xl focus:ring-2 focus:ring-blue-400 outline-none"
                      {...register("productquantity", { required: "Quantity is required" })}
@@ -114,21 +113,21 @@ const SingleProduct = () => {
                <div>
                   <textarea
                      rows={3}
-                     disabled={loginuser.usertype !== "Wholesaler"}
+                     //disabled={loginuser.usertype !== "Wholesaler"}
                      placeholder="Description"
                      className="w-full h-30 px-4 py-2 border border-gray-300 rounded-lg text-xl resize-none focus:ring-2 focus:ring-blue-400 outline-none"
                      {...register("description", { required: "Description is required" })}
                   ></textarea>
                   {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                </div>
-               {loginuser.usertype === "Wholesaler" &&
+               
                   <button
                      type="submit"
                      className="w-1/2 py-2 text-white cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-lg font-medium transition duration-300"
                   >
                      Update
                   </button>
-               }
+               
             </form>
             {loginuser.usertype === "Wholesaler" &&
                <button

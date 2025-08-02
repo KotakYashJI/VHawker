@@ -2,13 +2,13 @@ import API from "../api";
 import { AddTocart, LoadCart, ClearCart } from "../slices/Cartslice";
 import { toast } from "react-toastify";
 
-export const addtocart = (buyerid, product, sellerid) => async (dispatch) => {
+export const addtocart = (buyerid, product, sellerId) => async (dispatch) => {
   try {
     const existcart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (existcart.length > 0) {
-      const existsellerid = existcart[0].sellerid;
-      if (existsellerid !== sellerid) {
+      const existsellerId = existcart[0].sellerId;
+      if (existsellerId !== sellerId) {
         toast.error("You can only purchase from the same seller!");
         return;
       }
@@ -29,7 +29,7 @@ export const addtocart = (buyerid, product, sellerid) => async (dispatch) => {
       existcart.push({
         ...product,
         buyerid,
-        sellerid,
+        sellerId,
         productquantity: 1,
         maxquantity: product.productquantity,
         productprice: Number(product.productprice),
@@ -117,34 +117,51 @@ export const LoadCartproducts = () => async (dispatch) => {
 };
 
 export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (dispatch) => {
-  try {
-    const { sellerId, sellertype } = orderdata;
-    const buyerid = loginuser._id;
-    const buyertype = loginuser.usertype.toLowerCase();;
+  const date = orderdata.date;
+  const updatedorder = orderdata.orderdata.map((order) => ({
+    ...order,
+    maxquantity: order.productquantity
+  }));
 
-    await API.post("/api/orders", { orderdata, paymentdetails });
+  try {
+    const { sellerId, sellertype } = updatedorder[0];
+
+    const buyerId = loginuser._id;
+    const buyertype = loginuser.usertype.toLowerCase();
+
+    const sellerdata = {
+      sellerId,
+      sellertype
+    }
+
+    const buyerdata = {
+      buyerId,
+      buyertype
+    }
+
+    await API.post("http://localhost:8080/api/orders", { updatedorder, date, buyerdata, sellerdata, paymentdetails });
 
     if (sellertype.toLowerCase() === "semiwholesaler" && buyertype === "hawker") {
-      const ans = await API.patch(`/api/semiwholesalers/${sellerId}/products`, { orderdata, buyertype });
+      const ans = await API.patch(`/api/semiwholesalers/${sellerId}/products`, { updatedorder, buyertype });
       console.log(ans);
-
     }
 
     if (sellertype.toLowerCase() == "wholesaler" && buyertype == "semiwholesaler") {
-      const order = await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
-      const ans = await API.patch(`/api/semiwholesalers/${buyerid}/products`, { buyertype, orderdata });
+      const order = await API.patch(`http://localhost:8080/api/wholesalers/${sellerId}/products`, updatedorder);
+      const ans = await API.patch(`http://localhost:8080/api/semiwholesalers/${buyerId}/products`, { buyertype, updatedorder });
       console.log(order);
       console.log(ans);
     }
 
     if (sellertype.toLowerCase() == "wholesaler" && buyertype == "hawker") {
-      const order = await API.patch(`/api/wholesalers/${sellerId}/products`, orderdata);
+      const order = await API.patch(`/api/wholesalers/${sellerId}/products`, updatedorder);
       console.log(order);
     }
 
     localStorage.removeItem("cart");
     dispatch(ClearCart());
     toast.success("Order placed!");
+
   } catch (error) {
     console.log("Payment error:", error);
     toast.error("Payment failed");

@@ -63,6 +63,18 @@ export const UpdateProduct = (id, loginuser, product) => async (dispatch) => {
             console.log(error);
         }
     }
+    if (loginuser.usertype == "Semiwholesaler") {
+        try {
+            await API.patch(`http://localhost:8080/api/semiwholesalers/${loginuser._id}/products/${id}`, product);
+            const singleproduct = await API.get(`/api/wholesalers/${loginuser._id}/products/${id}`);
+            console.log(singleproduct);
+            
+            //dispatch(LoadSingleproduct(singleproduct.data));
+            toast.success("product updated");
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export const crruserproducts = (user) => async (dispatch) => {

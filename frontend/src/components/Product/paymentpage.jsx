@@ -39,23 +39,23 @@ const PaymentPage = () => {
     const month = date.getMonth();
 
     const paymentdetails = {
-      Bill : Number(totalPrice),
-      Gst : Number(totalPrice) * 0.10,
-      PaymentType : paymentMethod,
-      TotalBill : Number(totalPrice+totalPrice*0.10)
+      Bill: Number(totalPrice),
+      Gst: Number(totalPrice) * 0.10,
+      PaymentType: paymentMethod,
+      TotalBill: Number(totalPrice + totalPrice * 0.10)
     }
 
     const OrderData = {
-      date: `${todaydate}/${month+1}/${year}`,
+      date: `${todaydate}/${month + 1}/${year}`,
       orderdata: cartproducts,
       buyerId: loginuser._id,
-      buyertype:loginuser?.usertype?.toLowerCase(),
       sellerId: cartproducts[0].sellerId,
-      sellertype:cartproducts[0].sellertype
+      sellertype: cartproducts[0].sellertype,
+      buyertype: loginuser?.usertype?.toLowerCase(),
     }
 
     alert(`Payment successful using ${paymentMethod === 'upi' ? 'UPI' : 'Cash on Delivery'}!`);
-    dispatch(paymentgateway(loginuser,OrderData,paymentdetails));
+    dispatch(paymentgateway(loginuser, OrderData, paymentdetails));
     localStorage.removeItem('cart');
     navigate("/");
   };
@@ -142,7 +142,7 @@ const PaymentPage = () => {
 
         <button
           onClick={handlePayment}
-          className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
+          className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white cursor-pointer py-2 px-4 rounded-md"
         >
           Confirm Payment
         </button>

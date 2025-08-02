@@ -100,7 +100,7 @@ router.patch("/:_id/products/:id", async (req, res) => {
 router.patch("/:_id/products", async (req, res) => {
     try {
         const userid = req.params._id;
-        const orderproducts = req.body.orderdata;
+        const orderproducts = req.body;
 
         const wholesaler = await Wholesalermodel.findById(userid);
 

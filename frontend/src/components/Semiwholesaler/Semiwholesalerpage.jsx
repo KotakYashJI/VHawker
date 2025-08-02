@@ -66,9 +66,9 @@ const Semiwholesaler = () => {
   const productsToShow = visibleWholesalers?.flatMap((wholesaler) =>
     wholesaler.products.map((product) => ({
       ...product,
-      sellerId: wholesaler._id,
       wholesalerName: wholesaler.username,
       sellertype: wholesaler.usertype,
+      sellerId: wholesaler._id,
     }))
   );
 
@@ -138,7 +138,7 @@ const Semiwholesaler = () => {
                 {isAvailable ? (
                   <div className="px-4 pb-4">
                     <button
-                      className="w-full py-2 bg-[#00ADB5] text-white rounded-xl hover:bg-[#007B83] transition"
+                      className="w-full py-2 bg-[#00ADB5] text-white rounded-xl cursor-pointer hover:bg-[#007B83] transition"
                       onClick={() => handleCart(loginuser._id, product, product.sellerId)}
                     >
                       🛒 Add to Cart

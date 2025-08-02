@@ -5,14 +5,18 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
     try {
-        const { date, buyerId,buyertype, sellerId,sellertype, orderdata, } = req.body.orderdata;
+        const date = req.body.date;
+
+        const { sellerId, sellertype } = req.body.sellerdata;
+        const { buyerId, buyertype } = req.body.buyerdata;
+
         const neworder = await Ordermodel.create({
             orderdate: date,
             buyerid: buyerId,
             buyertype: buyertype,
             sellerid: sellerId,
             sellertype: sellertype,
-            orderdata: orderdata,
+            orderdata: req.body.updatedorder,
             paymentdata: req.body.paymentdetails
         });
         res.status(201).json(neworder);

@@ -91,10 +91,36 @@ router.get("/:id", async (req, res) => {
     }
 })
 
+router.patch("/:_id/products/:id", async (req, res) => {
+    try {
+        const userid = req.params._id;
+        const productid = req.params.id;
+        const { productimg, productname, productprice, productquantity, description } = req.body;
+        const updatedsemiwholesaler = await Semiwholesalermodel.findOneAndUpdate(
+            { _id: userid, "products.id": productid },
+            {
+                $set: {
+                    "products.$.productimg": productimg,
+                    "products.$.productname": productname,
+                    "products.$.productprice": Number(productprice),
+                    "products.$.productquantity": Number(productquantity),
+                    "products.$.description": description,
+                },
+            },
+            { new: true }
+        )
+        res.status(200).json(updatedsemiwholesaler);
+    } catch (error) {
+        res.status(500).json({
+            message: error
+        })
+    }
+})
+
 router.patch("/:id/products", async (req, res) => {
     try {
         const userId = req.params.id;
-        const orderdata = req.body.orderdata;
+        const orderdata = req.body.updatedorder;
         const buyertype = req.body.buyertype;
 
         const semiwholesaler = await Semiwholesalermodel.findById(userId);
@@ -104,7 +130,7 @@ router.patch("/:id/products", async (req, res) => {
 
         let updatedProducts = [...semiwholesaler.products];
 
-        orderdata.orderdata.forEach((orderProduct) => {
+        orderdata.forEach((orderProduct) => {
             const index = updatedProducts.findIndex((product) => product.id === orderProduct.id);
             const orderQty = Number(orderProduct.productquantity);
 

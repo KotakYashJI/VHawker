@@ -10,9 +10,9 @@ export const Cartslice = createSlice({
   reducers: {
     AddTocart: (state, action) => {
       const { product, quantityToAdd = 1 } = action.payload || {};
-
+      
       // Defensive check to avoid crashing on undefined product
-      if (!product || !product._id) {
+      if (!product || !product.id) {
         console.warn("Invalid product format in AddTocart reducer:", product);
         return;
       }
