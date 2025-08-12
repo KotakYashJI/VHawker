@@ -1,4 +1,4 @@
-export const createproduct = async (req, res) => {
+export const createproducts = async (req, res) => {
     try {
         await Productmodel.create(req.body);
         res.status(201).json({ message: "Product Created Successfully!" })
