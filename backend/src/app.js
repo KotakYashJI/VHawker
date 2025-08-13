@@ -37,7 +37,7 @@ app.use(express.json());
 app.use(cookieparse());
 
 app.get("/", (req, res) => {
-    res.send("Vhawker backend is running ✅");
+    res.send("Vhawker backend is running");
 });
 app.use("/api/users", Userroute);
 app.use("/api/hawkers", Hawkerroute);
