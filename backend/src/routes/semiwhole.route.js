@@ -1,5 +1,5 @@
 import express from "express"
-import {getallproducts, getallsemiwholesalerproducts, getallsemiwholesalers, getsingleproduct, getsinglesemiwholesaler, registersemiwholesaler, updateallproducts, updatesemiwholesaler, updatesingleproduct} from "../controllers/semiwholesaler.controller.js"
+import {getallproducts, getallsemiwholesalerproducts, getallsemiwholesalers, getsingleproduct, getsinglesemiwholesaler, loginsemiwholesaler, registersemiwholesaler, updateallproducts, updatesemiwholesaler, updatesingleproduct} from "../controllers/semiwholesaler.controller.js"
 const router = express.Router();
 
 router.post("/",registersemiwholesaler);
@@ -11,6 +11,8 @@ router.get("/:sellerid/products/:id", getsingleproduct);
 router.get("/:id/products", getallproducts);
 
 router.get("/", getallsemiwholesalers);
+
+router.post("/login",loginsemiwholesaler);
 
 router.get("/:id", getsinglesemiwholesaler);
 

@@ -67,7 +67,7 @@ const Mainroute = () => {
                 <Hawkerregister />
               </Unauthroute>} />
 
-          <Route path='/hawker/login' element={<Unauthroute><Hawkerlogin /></Unauthroute>} />
+          <Route path='/hawker/login' element={<Unauthroute userType="hawker"><Hawkerlogin /></Unauthroute>} />
           <Route
             path='/hawker'
             element={

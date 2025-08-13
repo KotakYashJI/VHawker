@@ -15,16 +15,13 @@ const HawkerPage = () => {
   const loginuser = useSelector((state) => state.user.Loginuser);
   const wholesalerproducts = useSelector((state) => state.wholesaler.wholesalerproducts);
   const semiwholesalerproducts = useSelector((state) => state.semiwholesaler.semiwholesalerproducts);
-  const cartproducts = useSelector((state) => state.cart.Cart);  
+  const cartproducts = useSelector((state) => state.cart.Cart);
 
   const [cartCount, setCartCount] = useState([]);
   const [selectedWholesalers, setSelectedWholesalers] = useState([]);
 
   useEffect(() => {
     dispatch(LoadLoginuser());
-    dispatch(GetallWholesalerProducts());
-    dispatch(GetallSemiwholesalerProducts());
-    dispatch(LoadCartproducts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -77,8 +74,8 @@ const HawkerPage = () => {
     selectedWholesalers.length === 0
       ? citySellers
       : citySellers.filter((seller) =>
-          selectedWholesalers.includes(seller._id)
-        );
+        selectedWholesalers.includes(seller._id)
+      );
 
   const toggleWholesaler = (id) => {
     setSelectedWholesalers((prev) =>
@@ -136,7 +133,7 @@ const HawkerPage = () => {
                     <div>
                       <h2 className="text-lg font-semibold truncate">{product.productname}</h2>
                       <p className="text-md">💰 ₹{product.productprice}</p>
-                      {product.productquantity>0 && <p className="text-md">📦 Qty: {product.productquantity}</p>}
+                      {product.productquantity > 0 && <p className="text-md">📦 Qty: {product.productquantity}</p>}
                       <p className="text-gray-600 mt-2 text-sm overflow-hidden line-clamp-2">
                         {product.description.slice(0, 30)}
                         <span

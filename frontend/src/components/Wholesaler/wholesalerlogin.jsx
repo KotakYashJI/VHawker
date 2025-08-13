@@ -2,14 +2,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { LoadAllWholesalers, LoginWholesaler } from "../../actions/Wholesaleraction";
 import { LoadLoginuser } from "../../actions/Useraction";
 
 const WholesalerLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const wholesalers = useSelector((state) => state.wholesaler.Wholesalers);
   const loginuser = useSelector((state) => state.user.Loginuser);
 
   const {
@@ -19,24 +17,9 @@ const WholesalerLogin = () => {
     formState: { errors },
   } = useForm();
 
-  const handleLogin = (formData) => {
-    const loginWholesaler = wholesalers?.find(
-      (wholesaler) =>
-        wholesaler.email === formData.email && wholesaler.password === formData.password
-    );
-
-    if (loginWholesaler) {
-      const updatedLogin = {
-        ...loginWholesaler,
-        usertype: "Wholesaler",
-      };
-      dispatch(LoginWholesaler(updatedLogin));
-      localStorage.setItem("loginuser", JSON.stringify(updatedLogin));
-      navigate("/wholesaler", { replace: true });
-    } else {
-      toast.error("user not found!");
-    }
-
+  const handleLogin = (user) => {
+    dispatch(LoginWholesaler(user));
+    navigate("/wholesaler", { replace: true });
     reset();
   };
 

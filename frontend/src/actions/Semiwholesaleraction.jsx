@@ -1,37 +1,17 @@
 import { toast } from "react-toastify";
 import {
-  AddSemiwholesaler,
   Loadloginsemiwholesaler,
   LoadSemiwholesalers,
   Loadsemiwholesalerproducts
 } from "../slices/Semiwholesalerslice";
 import API from "../api";
-import { LoadLoginuser } from "./Useraction";
+import { loadloginuser } from "../slices/Userslice";
 
 export const registerSemiwholesaler = (newsemiwholesaler) => async (dispatch) => {
   try {
-    const allsemiwholesalers = await API.get("/api/semiwholesalers");
-    if (allsemiwholesalers.data.length > 0) {
-      const crrsemiwholesaler = allsemiwholesalers.data.find((semiwholesaler) => semiwholesaler?.email == newsemiwholesaler?.email);
-      if (crrsemiwholesaler?.email == undefined || crrsemiwholesaler?.email == "undefined") {
-        const res = await API.post("/api/semiwholesalers", newsemiwholesaler);
-        if (res?.data) {
-          dispatch(AddSemiwholesaler(res.data));
-          localStorage.setItem("loginuser", JSON.stringify(res.data.data));
-          dispatch(LoadLoginuser());
-          toast.success("Registered Successfully");
-        }
-      }
-      else toast.error("already reqistered");
-    }
-    else {
-      const res = await API.post("/api/semiwholesalers", newsemiwholesaler);
-      if (res?.data) {
-        dispatch(AddSemiwholesaler(res.data));
-        localStorage.setItem("loginuser", JSON.stringify(res.data.data));
-        toast.success("Registered Successfully");
-      }
-    }
+    const response = await API.post("/api/semiwholesalers", newsemiwholesaler);
+    dispatch(loadloginuser(response.data.newuser));
+    toast.success(response.data.message);
   } catch (error) {
     console.error("Registration Error:", error);
     toast.error("registration failed.");
@@ -40,12 +20,12 @@ export const registerSemiwholesaler = (newsemiwholesaler) => async (dispatch) =>
 
 export const LoginSemiwholesaler = (semiwholesaler) => async (dispatch) => {
   try {
-    if (!semiwholesaler?._id) throw new Error("Invalid login data");
-    localStorage.setItem("loginuser", JSON.stringify(semiwholesaler));
-    dispatch(Loadloginsemiwholesaler(semiwholesaler));
+    const loginsemiwholesaler = await API.post("/api/semiwholesalers/login", semiwholesaler);
+    dispatch(loadloginuser(loginsemiwholesaler.data.user));
+    toast.success(loginsemiwholesaler.data.message);
   } catch (error) {
-    console.error("Login Error:", error);
-    toast.error("Login failed.");
+    console.log(error);
+    toast.error(error?.response?.data?.message);
   }
 };
 
@@ -61,16 +41,6 @@ export const LoadloginSemiwholesaler = () => async (dispatch) => {
   } catch (error) {
     console.error("Load Semiwholesaler Error:", error);
     localStorage.removeItem("loginuser");
-  }
-};
-
-export const LogoutSemiwholesaler = () => async (dispatch) => {
-  try {
-    localStorage.removeItem("loginuser");
-    dispatch(Loadloginsemiwholesaler(null));
-    toast.error("User Logged Out");
-  } catch (error) {
-    console.error("Logout Error:", error);
   }
 };
 

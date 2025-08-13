@@ -26,6 +26,8 @@ const Usertyperoute = ({ children, userType }) => {
     if (loading) return;
 
     const loginUserType = loginuser?.usertype?.toLowerCase();
+    console.log(loginUserType);
+    
     const expectedUserType = userType?.toLowerCase();
 
     if (!loginUserType) {

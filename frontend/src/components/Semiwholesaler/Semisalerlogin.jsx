@@ -1,19 +1,14 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
 
 import {
-  LoadAllSemiwholesaler,
   LoginSemiwholesaler,
 } from "../../actions/Semiwholesaleraction";
 
 const SemiwholesalerLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const semiwholesalers = useSelector((state) => state.semiwholesaler.Semiwholesaler);
 
   const {
     register,
@@ -23,25 +18,10 @@ const SemiwholesalerLogin = () => {
   } = useForm();
 
   const handlelogin = async (user) => {
-    const foundUser = semiwholesalers?.find(
-      (semi) =>
-        semi.email === user.email && semi.password === user.password
-    );
-
-    if (foundUser) {
-      await dispatch(LoginSemiwholesaler(foundUser));
-      toast.success("Login successful");
-      navigate("/semiwholesaler", { replace: true });
-    } else {
-      toast.error("User Not Found!");
-    }
-
+    dispatch(LoginSemiwholesaler(user));
+    navigate("/semiwholesaler", { replace: true });
     reset();
   };
-
-  useEffect(() => {
-    dispatch(LoadAllSemiwholesaler());
-  }, [dispatch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9] px-4 py-10">

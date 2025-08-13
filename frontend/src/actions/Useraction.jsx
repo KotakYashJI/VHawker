@@ -17,8 +17,7 @@ export const registeruser = (newuser) => async (dispatch) => {
 
 export const Loginuser = (user) => async (dispatch) => {
    try {
-      localStorage.setItem("loginuser", JSON.stringify(user));
-      dispatch(loadloginuser(user));
+      dispatch(Loginuser(user));
       toast.success("Login Successful");
    } catch (error) {
       console.error("Login Error:", error);
@@ -28,49 +27,18 @@ export const Loginuser = (user) => async (dispatch) => {
 
 export const LoadLoginuser = () => async (dispatch) => {
    try {
-      const storedUser = JSON.parse(localStorage.getItem("loginuser"))||[];
-
-      if (storedUser.usertype == "admin") {
-         dispatch(loadloginuser(storedUser));
-         return;
-      }
-
-      if (!storedUser || !storedUser._id || !storedUser.usertype) {
-         dispatch(loadloginuser([]));
-         return;
-      }
-      const usertype = storedUser.usertype.toLowerCase();
-
-      let res;
-
-      switch (usertype) {
-         case "hawker":
-            res = await API.get(`/api/hawkers/${storedUser._id}`);
-            break;
-         case "wholesaler":
-            res = await API.get(`/api/wholesalers/${storedUser._id}`);
-            break;
-         case "semiwholesaler":
-            res = await API.get(`/api/semiwholesalers/${storedUser._id}`);
-            break;
-         default:
-            dispatch(loadloginuser([]));
-            return;
-      }
-      
-      dispatch(loadloginuser(res.data.data));
+      const reponse = await API.get("http://localhost:8080/api/users/loadloginuser");
+      dispatch(loadloginuser(reponse.data.user));
    } catch (error) {
-      console.error("Load Login User Error:", error);
-      localStorage.removeItem("loginuser");
-      dispatch(loadloginuser([]));
+      console.log(error);
    }
 };
 
 export const Logoutuser = () => async (dispatch) => {
    try {
-      localStorage.removeItem("loginuser");
-      dispatch(loadloginuser([]));
-      toast.info("Logged out successfully");
+      const response = await API.post("http://localhost:8080/api/users/logoutuser");
+      dispatch(loadloginuser(null));
+      toast.info(response.data.message);
    } catch (error) {
       console.log(error);
    }

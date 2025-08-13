@@ -2,8 +2,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { registerSemiwholesaler } from "../../actions/Semiwholesaleraction"
-import { useEffect } from 'react';
-import { LoadLoginuser } from '../../actions/Useraction';
 
 const semiwholesalerRegister = () => {
     const navigate = useNavigate();

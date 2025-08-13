@@ -1,18 +1,57 @@
 import Semiwholesalermodel from "../models/semiwholesaler.model.js";
+import jwt from "jsonwebtoken"
+import bcryptjs from "bcryptjs";
 
 export const registersemiwholesaler = async (req, res) => {
     try {
-        const semisemiwholesaler = await Semiwholesalermodel.create(req.body);
+        const { username, email, password, city } = req.body;
+        const user = await Semiwholesalermodel.findOne({
+            $or: [
+                { username: username },
+                { email: email }
+            ]
+        });
+        if (user) return res.status(400).json("Semiwholesaler Already exist");
+        const hashpassword = await bcryptjs.hash(password, 10);
+        const newuser = await Semiwholesalermodel.create({
+            username: username,
+            email: email,
+            password: hashpassword,
+            city: city
+        });
+        const usertoken = { id: newuser._id, usertype: "semiwholesaler" };
+        const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
+        res.cookie("token", token);
         res.status(201).json({
-            message: "Semisemiwholesaler Register",
-            data: semisemiwholesaler
+            message: "User Register",
+            newuser
         })
     } catch (error) {
-        res.status(500).json({
-            message: error,
-        })
+        res.status(500).json(error);
     }
 };
+
+export const loginsemiwholesaler = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await Semiwholesalermodel.findOne({
+            email: email
+        }
+        );
+        if (!user) return res.status(400).json({ message: "User Not Found" });
+        const isexistpassword = await bcryptjs.compare(password, user.password);
+        if (!isexistpassword) return res.status(400).json({ message: "Invalid Password" });
+        const usertoken = { id: user._id, usertype: user.usertype };
+        const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
+        res.cookie("token", token);
+        res.status(200).json({
+            message: "User Login",
+            user
+        });
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+}
 
 export const getallsemiwholesalerproducts = async (req, res) => {
     try {
@@ -55,7 +94,7 @@ export const getallproducts = async (req, res) => {
     }
 };
 
-export const getallsemiwholesalers =  async (req, res) => {
+export const getallsemiwholesalers = async (req, res) => {
     try {
         const semisemiwholesalers = await Semiwholesalermodel.find();
         console.log(semisemiwholesalers);
@@ -138,7 +177,7 @@ export const updateallproducts = async (req, res) => {
     }
 };
 
-export const updatesingleproduct =  async (req, res) => {
+export const updatesingleproduct = async (req, res) => {
     try {
         const userid = req.params._id;
         const productid = req.params.id;

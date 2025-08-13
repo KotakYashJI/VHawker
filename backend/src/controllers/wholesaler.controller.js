@@ -1,20 +1,58 @@
 import Wholesalermodel from "../models/wholesaler.model.js";
+import jwt from "jsonwebtoken"
+import bcryptjs from "bcryptjs"
 
-export const registerwholesaler =  async (req, res) => {
+export const registerwholesaler = async (req, res) => {
     try {
-        const wholesaler = await Wholesalermodel.create(req.body);
+        const { username, email, password, city } = req.body;
+        const user = await Wholesalermodel.findOne({
+            $or: [
+                { username: username },
+                { email: email }
+            ]
+        });
+        if (user) return res.status(400).json("user Already exist");
+        const hashpassword = await bcryptjs.hash(password, 10);
+        const newuser = await Wholesalermodel.create({
+            username: username,
+            email: email,
+            password: hashpassword,
+            city: city
+        });
+        const usertoken = { id: newuser._id, usertype: newuser.usertype };
+        const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
+        res.cookie("token", token);
         res.status(201).json({
-            message: "Wholesaler Register",
-            data: wholesaler
+            message: "User Register",
+            newuser
         })
     } catch (error) {
-        res.status(500).json({
-            message: error,
-        })
+        res.status(500).json(error);
     }
 };
 
-export const getsingleproduct =  async (req, res) => {
+export const loginwholesaler = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await Wholesalermodel.findOne(
+            { email: email }
+        );
+        if (!user) return res.status(400).json({ message: "User Not Found" });
+        const isexistpassowrd = await bcryptjs.compare(password, user.password);
+        if (!isexistpassowrd) return res.status(400).json({ message: "Invalid Password" });
+        const usertoken = { id: user._id, usertype: user.usertype };
+        const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
+        res.cookie("token", token);
+        res.status(200).json({
+            message: "User Login",
+            user
+        });
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+}
+
+export const getsingleproduct = async (req, res) => {
     try {
         const productid = req.params.id;
         const sellerid = req.params.sellerid;
@@ -42,7 +80,7 @@ export const getallwholesaler = async (req, res) => {
     }
 };
 
-export const getallproducts =  async (req, res) => {
+export const getallproducts = async (req, res) => {
     try {
         const userid = req.params.id;
         const wholesalerproducts = await Wholesalermodel.find({ _id: userid }).populate("products");
@@ -69,7 +107,7 @@ export const getallproducts =  async (req, res) => {
 //     }
 // })
 
-export const updatesingleproduct =  async (req, res) => {
+export const updatesingleproduct = async (req, res) => {
     try {
         const userid = req.params._id;
         const productid = req.params.id;
@@ -129,7 +167,7 @@ export const updateallproducts = async (req, res) => {
     }
 };
 
-export const deleteproduct =  async (req, res) => {
+export const deleteproduct = async (req, res) => {
     try {
         const userid = req.params._id;
         const productid = req.params.productid;

@@ -8,8 +8,7 @@ import { toast } from "react-toastify";
 const HawkerLogin = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const hawkers = useSelector((state) => state.hawker.hawkers);
-
+    
     const {
         register,
         handleSubmit,
@@ -18,23 +17,11 @@ const HawkerLogin = () => {
     } = useForm();
 
     const handleLogin = (user) => {
-        const loginhawker = hawkers.find(
-            (hawker) => hawker.email === user.email && hawker.password === user.password
-        );
-
-        if (loginhawker) {
-            const userdata = {
-                _id: loginhawker._id,
-                usertype: "hawker",
-            };
-            dispatch(LoginHawker(userdata));
-            navigate("/hawker", { replace: true });
-        } else {
-            toast.error("User Not Found!");
-        }
+        dispatch(LoginHawker(user));
+        navigate("/hawker", { replace: true });
         reset();
-    };
-    
+    }
+
     useEffect(() => {
         dispatch(LoadAllHawkers());
         const storedUser = JSON.parse(localStorage.getItem("loginuser"));

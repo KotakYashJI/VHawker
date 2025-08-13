@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LoadLoginuser } from '../actions/Useraction';
 import { useNavigate } from 'react-router-dom';
 
-const UnauthRoute = ({ children }) => {
+const UnauthRoute = ({ children,userType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginuser = useSelector((state) => state.user.Loginuser);
@@ -12,23 +12,26 @@ const UnauthRoute = ({ children }) => {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        if (!loginuser || !loginuser._id) {
+        if (!loginuser) {
           await dispatch(LoadLoginuser());
         }
 
         const usertype = loginuser?.usertype;
+        console.log(loginuser);
+        
         if (usertype) {
           navigate(`/${usertype}`, { replace: true });
         }
       } catch (error) {
         console.error("Error checking login:", error);
+        navigate(`/${userType}/login`);
       } finally {
         setLoading(false);
       }
     };
 
     checkLogin();
-  }, [dispatch, loginuser.usertype, navigate]);
+  }, [dispatch, loginuser, navigate]);
 
   if (loading) {
     return (

@@ -1,34 +1,15 @@
 import { toast } from "react-toastify";
 import API from "../api";
-import { AddWholesaler, LoadLoginWholesaler, LoadWholesalers } from "../slices/Wholesalerslice";
+import { LoadLoginWholesaler, LoadWholesalers } from "../slices/Wholesalerslice";
 import { LoadSingleproduct } from "../slices/Productslice";
 import { Loadwholesalerproducts } from "../slices/Wholesalerslice";
-import { LoadLoginuser } from "./Useraction";
+import { loadloginuser } from "../slices/Userslice";
 
 export const registerwholesaler = (newwholesaler) => async (dispatch) => {
    try {
-      const allwholesalers = await API.get("/api/wholesalers");
-      if (allwholesalers.data.length > 0) {
-         const crrwholesaler = allwholesalers.data.find((wholesaler) => wholesaler?.email == newwholesaler?.email);
-         if (crrwholesaler?.email == undefined || crrwholesaler?.email == "undefined") {
-            const res = await API.post("/api/wholesalers", newwholesaler);
-            if (res?.data) {
-               dispatch(AddWholesaler(res.data));
-               localStorage.setItem("loginuser", JSON.stringify(res.data.data));
-               dispatch(LoadLoginuser());
-               toast.success("Registered Successfully");
-            }
-         }
-         else toast.error("already reqistered");
-      }
-      else {
-         const res = await API.post("/api/wholesalers", newwholesaler);
-         if (res?.data) {
-            dispatch(AddWholesaler(res.data));
-            localStorage.setItem("loginuser", JSON.stringify(res.data.data));
-            toast.success("Registered Successfully");
-         }
-      }
+      const response = await API.post("/api/wholesalers", newwholesaler);
+      dispatch(loadloginuser(response.data.newuser));
+      toast.success(response.data.message);
    } catch (error) {
       console.error("Registration Error:", error);
       toast.error("registration failed.");
@@ -37,10 +18,11 @@ export const registerwholesaler = (newwholesaler) => async (dispatch) => {
 
 export const LoginWholesaler = (wholesaler) => async (dispatch) => {
    try {
-      localStorage.setItem("loginuser", JSON.stringify(wholesaler));
-      dispatch(LoadLoginWholesaler(wholesaler));
+      const loginwholesaler = await API.post("/api/wholesalers/login", wholesaler);
+      dispatch(loadloginuser(user.data.user));
+      toast.success(loginwholesaler.data.message);
    } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data?.message);
    }
 };
 
@@ -51,16 +33,6 @@ export const LoadloginWholesaler = () => async (dispatch) => {
       dispatch(LoadLoginWholesaler(loginWholesaler.data.data));
    } catch (error) {
       localStorage.removeItem("loginuser");
-      console.log(error);
-   }
-};
-
-export const LogoutWholesaler = () => async (dispatch) => {
-   try {
-      localStorage.removeItem("loginuser");
-      dispatch(LoadLoginWholesaler([]));
-      toast.error("User Logout");
-   } catch (error) {
       console.log(error);
    }
 };
