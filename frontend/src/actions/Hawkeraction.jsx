@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
-import { Loadhawkers } from "../slices/Hawkerslice";
+import { AddHawkers, LoadLoginhawker, Loadhawkers } from "../slices/Hawkerslice";
 import API from "../api";
 import { loadloginuser } from "../slices/Userslice";
 
 export const registerhawker = (newhawker) => async (dispatch) => {
    try {
-      const response = await API.post("/api/hawkers", newhawker);
+      const response = await API.post("http://localhost:8080/api/hawkers", newhawker);
       dispatch(loadloginuser(response.data.newuser));
       toast.success(response.data.message);
    } catch (error) {
@@ -17,7 +17,7 @@ export const registerhawker = (newhawker) => async (dispatch) => {
 export const LoginHawker = (hawker) => async (dispatch) => {
    let loginhawker;
    try {
-      loginhawker = await API.post("/api/hawkers/login", hawker);
+      loginhawker = await API.post("http://localhost:8080/api/hawkers/login", hawker);
       dispatch(loadloginuser(loginhawker.data.user));
       toast.success(loginhawker.data.message);
    } catch (error) {
