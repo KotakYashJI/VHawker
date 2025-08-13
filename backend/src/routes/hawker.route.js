@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post("/", registerhawker);
 
-router.post("/login",loginhawker);
+router.post("/login", loginhawker);
 
-router.get("/", getallhawkers)
+router.get("/", getallhawkers);
 
 router.patch("/:id", updatehawker)
 

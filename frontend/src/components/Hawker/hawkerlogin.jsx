@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LoadAllHawkers, LoginHawker } from "../../actions/Hawkeraction";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 
 const HawkerLogin = () => {
     const dispatch = useDispatch();
