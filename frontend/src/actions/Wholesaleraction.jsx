@@ -19,7 +19,7 @@ export const registerwholesaler = (newwholesaler) => async (dispatch) => {
 export const LoginWholesaler = (wholesaler) => async (dispatch) => {
    try {
       const loginwholesaler = await API.post("/api/wholesalers/login", wholesaler);
-      dispatch(loadloginuser(user.data.user));
+      dispatch(loadloginuser(loginwholesaler.data.user));
       toast.success(loginwholesaler.data.message);
    } catch (error) {
       toast.error(error?.response?.data?.message);

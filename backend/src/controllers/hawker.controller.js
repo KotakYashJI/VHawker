@@ -42,7 +42,7 @@ export const loginhawker = async (req, res) => {
         const isexistpassword = await bcryptjs.compare(password, user.password);
         if (!isexistpassword) return res.status(400).json({
             message: "Invalid Password"
-        })
+        });
         const usertoken = { id: user._id, usertype: user.usertype };
         const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
         res.cookie("token", token);
