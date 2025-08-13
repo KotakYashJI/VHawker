@@ -70,16 +70,17 @@ export const updatehawker = async (req, res) => {
         const id = req.params.id;
         const { username, email, password,
             usertype, productstore } = req.body;
+        const hashpassword = await bcryptjs.hash(password, 10);
         const updatedhawker = await Hawkermodel.findOneAndUpdate(
             { _id: id },
             {
                 username: username,
                 email: email,
-                password: password,
+                password: hashpassword,
                 usertype: usertype,
                 productstore: productstore,
             }
-        )
+        );
         res.status(201).json({
             message: "Hawker Updated",
             data: updatedhawker
