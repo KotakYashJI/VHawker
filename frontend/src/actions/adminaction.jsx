@@ -1,17 +1,14 @@
 import { toast } from "react-toastify";
-import { Loginadmin, LoadAdmin } from "../slices/Adminslice"
+import { loadloginuser } from "../slices/Userslice";
+import API from "../api";
 
 export const loginadmin = (admin) => async (dispatch) => {
+    let adminlogin;
     try {
-        localStorage.setItem("loginuser", JSON.stringify(admin));
-        dispatch(Loginadmin(admin));
-        toast.success("Login Successful");
+        adminlogin = await API.post("http://localhost:8080/api/admin/login", admin);
+        dispatch(loadloginuser(adminlogin.data.data));
+        toast.success(adminlogin.data.message);
     } catch (error) {
-        console.log(error);
+        toast.error(error.message);
     }
-}
-
-export const LoadLoginadmin = () => (dispatch) => {
-    const loginadmin = JSON.parse(localStorage.getItem("loginuser"));
-    dispatch(LoadAdmin(loginadmin));
-}
+};

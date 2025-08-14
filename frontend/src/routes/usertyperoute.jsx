@@ -29,7 +29,7 @@ const Usertyperoute = ({ children, userType }) => {
     console.log(loginUserType);
     
     const expectedUserType = userType?.toLowerCase();
-
+  
     if (!loginUserType) {
       navigate(`/${expectedUserType}/login`, { replace: true });
       return;

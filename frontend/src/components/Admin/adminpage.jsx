@@ -12,8 +12,8 @@ const AdminDashboard = () => {
   const [view, setView] = useState("orders");
 
   console.log(contactdata);
-  
-  const handledelete = (id)=>{
+
+  const handledelete = (id) => {
     dispatch(deletecontact(id));
   }
 
@@ -47,8 +47,8 @@ const AdminDashboard = () => {
         <button
           onClick={() => setView("orders")}
           className={`flex items-center gap-2 px-4 py-2 rounded shadow-md font-medium transition ${view === "orders"
-              ? "bg-[#00ADB5] text-white"
-              : "bg-white text-[#00ADB5] border border-[#00ADB5]"
+            ? "bg-[#00ADB5] text-white"
+            : "bg-white text-[#00ADB5] border border-[#00ADB5]"
             }`}
         >
           <FaBoxOpen /> Show Orders
@@ -56,8 +56,8 @@ const AdminDashboard = () => {
         <button
           onClick={() => setView("contacts")}
           className={`flex items-center gap-2 px-4 py-2 rounded shadow-md font-medium transition ${view === "contacts"
-              ? "bg-[#00ADB5] text-white"
-              : "bg-white text-[#00ADB5] border border-[#00ADB5]"
+            ? "bg-[#00ADB5] text-white"
+            : "bg-white text-[#00ADB5] border border-[#00ADB5]"
             }`}
         >
           <FaEnvelope /> Show Contact Messages

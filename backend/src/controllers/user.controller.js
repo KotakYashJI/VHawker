@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const loadloginuser = async (req, res) => {
     const token = req.cookies.token;
+    console.log(token);
     if (!token) return res.status(401).json("User Not Authenticated please login");
     try {
         const user = jwt.verify(token, process.env.JWT_TOKEN);
@@ -39,6 +40,10 @@ export const loadloginuser = async (req, res) => {
                 message: "Login User Found",
                 user: wholesaler
             });
+        }
+        else
+        {
+           console.log(usertype);
         }
     } catch (error) {
         res.status(500).json(error);

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { loginadmin, LoadLoginadmin } from "..//../actions/adminaction"
+import { loginadmin } from "..//../actions/adminaction"
 import { LoadLoginuser } from "../../actions/Useraction";
 
 const AdminLogin = () => {

@@ -8,6 +8,7 @@ import productroute from "./routes/product.route.js";
 import Userroute from "./routes/user.route.js";
 import Orderroute from "./routes/order.route.js";
 import Contactroute from "./routes/contact.route.js";
+import Adminroute from "./routes/admin.route.js";
 import cors from "cors";
 import cookieparse from "cookie-parser"
 
@@ -39,7 +40,9 @@ app.use(cookieparse());
 app.get("/", (req, res) => {
     res.send("Vhawker backend is running");
 });
+
 app.use("/api/users", Userroute);
+app.use("/api/admin", Adminroute);
 app.use("/api/hawkers", Hawkerroute);
 app.use("/api/semiwholesalers", semiwholesalerroute);
 app.use("/api/wholesalers", Wholesalerroute);
