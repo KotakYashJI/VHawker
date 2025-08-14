@@ -9,6 +9,8 @@ export const loadloginuser = async (req, res) => {
     try {
         const user = jwt.verify(token, process.env.JWT_TOKEN);
         const usertype = user.usertype;
+        console.log(usertype);
+        
         if (usertype === "Hawker") {
             const hawker = await Hawkermodel.findOne({
                 _id: user.id
@@ -16,7 +18,7 @@ export const loadloginuser = async (req, res) => {
             if (!hawker) return res.status(400).json({ message: "User Not Found!" });
             res.status(200).json({
                 message: "Login User Found",
-                user: req.admin,
+                user: hawker,
                 toke: user
             });
         }
