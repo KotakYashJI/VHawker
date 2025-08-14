@@ -107,7 +107,7 @@ const HawkerPage = () => {
       </div>
 
       <div className="w-full md:w-4/5">
-        <div className="grid mt-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid mt-20 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {visibleSellers
             ?.flatMap((seller) =>
               seller.products.map((product) => ({
