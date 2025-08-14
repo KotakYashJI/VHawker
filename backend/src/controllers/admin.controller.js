@@ -11,10 +11,11 @@ export const loginadmin = async (req, res) => {
             sameSite: "None",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
+        req.admin = req.body;
         res.status(200).json({
             data: req.body,
             message: "Admin Login"
-        })
+        });
     } catch (error) {
         res.status(500).json({
             message: error

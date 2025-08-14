@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 
 export const loadloginuser = async (req, res) => {
     const token = req.cookies.token;
-    console.log(token);
     if (!token) return res.status(401).json("User Not Authenticated please login");
     try {
         const user = jwt.verify(token, process.env.JWT_TOKEN);
@@ -17,8 +16,8 @@ export const loadloginuser = async (req, res) => {
             if (!hawker) return res.status(400).json({ message: "User Not Found!" });
             res.status(200).json({
                 message: "Login User Found",
-                user: hawker,
-                toke : user
+                user: req.admin,
+                toke: user
             });
         }
         else if (usertype === "Semiwholesaler") {
@@ -41,9 +40,12 @@ export const loadloginuser = async (req, res) => {
                 user: wholesaler
             });
         }
-        else
-        {
-           console.log(usertype);
+        else {
+            res.status(200).json({
+                message: "Login User Found",
+                user: hawker,
+                toke: user
+            });
         }
     } catch (error) {
         res.status(500).json(error);

@@ -11,8 +11,6 @@ const AdminDashboard = () => {
   const contactdata = useSelector((state) => state.contact.Contacts);
   const [view, setView] = useState("orders");
 
-  console.log(contactdata);
-
   const handledelete = (id) => {
     dispatch(deletecontact(id));
   }
