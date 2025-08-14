@@ -50,7 +50,7 @@ export const LoadAllWholesalers = () => async (dispatch) => {
 
 export const GetallWholesalerProducts = () => async (dispatch) => {
    try {
-      const products = await API.get("http://localhost:8080/api/wholesalers");
+      const products = await API.get("/api/wholesalers");
       console.log(products);
       dispatch(Loadwholesalerproducts(products.data));
    } catch (error) {
