@@ -11,6 +11,8 @@ export const registerwholesaler = async (req, res) => {
                 { email: email }
             ]
         });
+        console.log(req.body);
+        
         if (user) return res.status(400).json("user Already exist");
         const hashpassword = await bcryptjs.hash(password, 10);
         const newuser = await Wholesalermodel.create({
@@ -90,7 +92,7 @@ export const getallwholesaler = async (req, res) => {
     }
 };
 
-export const getallproducts = async (req, res) => {
+export const getsinglewholesalerproducts = async (req, res) => {
     try {
         const userid = req.params.id;
         const wholesalerproducts = await Wholesalermodel.find({ _id: userid }).populate("products");
@@ -99,6 +101,16 @@ export const getallproducts = async (req, res) => {
         console.log(error);
     }
 };
+
+export const getallproducts = async (req, res) => {
+    try {
+        const wholesalerproducts = await Wholesalermodel.find();
+        console.log(wholesalerproducts);
+        res.status(201).json(wholesalerproducts);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // router.get("/:_id/products/:id", async (req, res) => {
 //     try {

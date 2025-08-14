@@ -19,7 +19,7 @@ export const registersemiwholesaler = async (req, res) => {
             password: hashpassword,
             city: city
         });
-        const usertoken = { id: newuser._id, usertype: "semiwholesaler" };
+        const usertoken = { id: newuser._id, usertype: newuser.usertype };
         const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
         res.cookie("token", token, {
             httpOnly: true,

@@ -11,7 +11,7 @@ router.get("/", getallwholesaler);
 
 router.get("/:id", getsinglewholesaler);
 
-router.get("/:id/products", getallproducts);
+router.get("/products", getallproducts);
 
 router.post("/login",loginwholesaler);
 

@@ -13,9 +13,7 @@ const Semiwholesaler = () => {
 
   const loginuser = useSelector((state) => state.user.Loginuser);
   const wholesalers = useSelector((state) => state.wholesaler.wholesalerproducts);
-
-  console.log(wholesalers);
-
+  
   const cartproducts = useSelector((state) => state.cart.Cart);
 
   const [cartCount, setCartCount] = useState({});

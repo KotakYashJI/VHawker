@@ -39,7 +39,9 @@ export const LoadloginWholesaler = () => async (dispatch) => {
 
 export const LoadAllWholesalers = () => async (dispatch) => {
    try {
-      const wholesalers = await API.get("/api/wholesalers");
+      const wholesalers = await API.get("http://localhost:8080/api/wholesalers");
+      console.log(wholesalers);
+      
       dispatch(LoadWholesalers(wholesalers.data));
    } catch (error) {
       console.log(error);
@@ -48,7 +50,8 @@ export const LoadAllWholesalers = () => async (dispatch) => {
 
 export const GetallWholesalerProducts = () => async (dispatch) => {
    try {
-      const products = await API.get("/api/wholesalers/products");
+      const products = await API.get("http://localhost:8080/api/wholesalers");
+      console.log(products);
       dispatch(Loadwholesalerproducts(products.data));
    } catch (error) {
       console.log(error);
