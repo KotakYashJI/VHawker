@@ -45,18 +45,15 @@ export const loginhawker = async (req, res) => {
         });
         const usertoken = { id: user._id, usertype: user.usertype };
         const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
-        
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: "Lax",
-            path: "/",
-            maxAge: 24 * 60 * 60 * 1000
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
         });
-
         res.status(200).json({
             message: "User Login Successfully",
-            user,
-            token
+            user
         });
     } catch (error) {
         res.status(500).json(error);
