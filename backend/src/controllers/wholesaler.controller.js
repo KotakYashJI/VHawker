@@ -102,15 +102,16 @@ export const getsinglewholesalerproducts = async (req, res) => {
     }
 };
 
-export const getallproducts = async (req, res) => {
+export const getallwholesalerproducts = async (req, res) => {
     try {
-        const wholesalerproducts = await Wholesalermodel.find();
-        console.log(wholesalerproducts);
-        res.status(201).json(wholesalerproducts);
+        const allwholesalerproducts = await Wholesalermodel.find().populate("products");
+        res.json(allwholesalerproducts);
     } catch (error) {
-        console.log(error);
+        res.json({
+            message: "no products found"
+        })
     }
-}
+};
 
 // router.get("/:_id/products/:id", async (req, res) => {
 //     try {

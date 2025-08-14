@@ -1,5 +1,5 @@
 import express from "express"
-import { deleteproduct, getallproducts, getallwholesaler, getsingleproduct, getsinglewholesaler, loginwholesaler, registerwholesaler, updateallproducts, updatesingleproduct, updatewholesaler } from "../controllers/wholesaler.controller.js";
+import { deleteproduct, getallwholesaler, getallwholesalerproducts, getsingleproduct, getsinglewholesaler, loginwholesaler, registerwholesaler, updateallproducts, updatesingleproduct, updatewholesaler } from "../controllers/wholesaler.controller.js";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get("/", getallwholesaler);
 
 router.get("/:id", getsinglewholesaler);
 
-router.get("/products", getallproducts);
+router.get("/products", getallwholesalerproducts);
 
 router.post("/login",loginwholesaler);
 
