@@ -21,7 +21,12 @@ export const registerhawker = async (req, res) => {
         });
         const usertoken = { id: newuser._id, usertype: "hawker" };
         const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
         res.status(201).json({
             message: "User Register",
             newuser

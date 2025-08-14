@@ -21,7 +21,12 @@ export const registersemiwholesaler = async (req, res) => {
         });
         const usertoken = { id: newuser._id, usertype: "semiwholesaler" };
         const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
         res.status(201).json({
             message: "User Register",
             newuser
@@ -43,7 +48,12 @@ export const loginsemiwholesaler = async (req, res) => {
         if (!isexistpassword) return res.status(400).json({ message: "Invalid Password" });
         const usertoken = { id: user._id, usertype: user.usertype };
         const token = jwt.sign(usertoken, process.env.JWT_TOKEN);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });;
         res.status(200).json({
             message: "User Login",
             user
