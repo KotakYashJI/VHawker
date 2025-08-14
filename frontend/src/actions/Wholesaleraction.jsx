@@ -39,9 +39,7 @@ export const LoadloginWholesaler = () => async (dispatch) => {
 
 export const LoadAllWholesalers = () => async (dispatch) => {
    try {
-      const wholesalers = await API.get("http://localhost:8080/api/wholesalers");
-      console.log(wholesalers);
-      
+      const wholesalers = await API.get("/api/wholesalers");
       dispatch(LoadWholesalers(wholesalers.data));
    } catch (error) {
       console.log(error);
