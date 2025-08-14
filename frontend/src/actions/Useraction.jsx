@@ -27,7 +27,7 @@ export const Loginuser = (user) => async (dispatch) => {
 
 export const LoadLoginuser = () => async (dispatch) => {
    try {
-      const reponse = await API.get("http://localhost:8080/api/users/loadloginuser");
+      const reponse = await API.get("/api/users/loadloginuser");
       dispatch(loadloginuser(reponse.data.user));
    } catch (error) {
       console.log(error);
@@ -36,7 +36,7 @@ export const LoadLoginuser = () => async (dispatch) => {
 
 export const Logoutuser = () => async (dispatch) => {
    try {
-      const response = await API.post("http://localhost:8080/api/users/logoutuser");
+      const response = await API.post("/api/users/logoutuser");
       dispatch(loadloginuser(null));
       toast.info(response.data.message);
    } catch (error) {

@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadLoginuser } from '../../actions/Useraction';
 import { useNavigate } from 'react-router-dom';
-import { addtocart, LoadCartproducts } from '../../actions/Cartaction';
-import { GetallWholesalerProducts } from '../../actions/Wholesaleraction';
-import { GetallSemiwholesalerProducts } from '../../actions/Semiwholesaleraction';
+import { addtocart } from '../../actions/Cartaction';
 import '../../styles/hideScrollbar.css';
 import { toast } from 'react-toastify';
 

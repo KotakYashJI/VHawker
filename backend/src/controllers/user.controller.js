@@ -13,24 +13,28 @@ export const loadloginuser = async (req, res) => {
             const hawker = await Hawkermodel.findOne({
                 _id: user.id
             });
+            if (!hawker) return res.status(400).json({ message: "User Not Found!" });
             res.status(200).json({
                 message: "Login User Found",
-                user: hawker
+                user: hawker,
+                toke : user
             });
         }
-        if (usertype === "Semiwholesaler") {
+        else if (usertype === "Semiwholesaler") {
             const semiwholesaler = await Semiwholesalermodel.findOne({
                 _id: user.id
             });
+            if (!semiwholesaler) return res.status(400).json({ message: "User Not Found!" });
             res.status(200).json({
                 message: "Login User Found",
                 user: semiwholesaler
             });
         }
-        if (usertype === "Wholesaler") {
+        else if (usertype === "Wholesaler") {
             const wholesaler = await Wholesalermodel.findOne({
                 _id: user.id
             });
+            if (!wholesaler) return res.status(400).json({ message: "User Not Found!" });
             res.status(200).json({
                 message: "Login User Found",
                 user: wholesaler
@@ -43,14 +47,14 @@ export const loadloginuser = async (req, res) => {
 
 export const logoutuser = async (req, res) => {
     try {
-        res.clearCookie("token",{
-            httpOnly:true,
-            secure:true,
-            sameSite:"Strict",
-            path:"/"
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            path: "/"
         });
         res.status(200).json({
-            message:"User Logout Successfully"
+            message: "User Logout Successfully"
         })
     } catch (error) {
         res.status(500).json(error);
