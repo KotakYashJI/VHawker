@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectdatabase from "./database/database.js";
 import Hawkerroute from "./routes/hawker.route.js";
 import semiwholesalerroute from "./routes/semiwhole.route.js";
@@ -10,7 +12,7 @@ import Orderroute from "./routes/order.route.js";
 import Contactroute from "./routes/contact.route.js";
 import Adminroute from "./routes/admin.route.js";
 import cors from "cors";
-import cookieparse from "cookie-parser"
+import cookieparse from "cookie-parser";
 
 dotenv.config();
 
@@ -49,5 +51,14 @@ app.use("/api/wholesalers", Wholesalerroute);
 app.use("/api/products", productroute);
 app.use("/api/orders", Orderroute);
 app.use("/api/contacts", Contactroute);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 export default app;
