@@ -11,8 +11,7 @@ export const registerwholesaler = async (req, res) => {
                 { email: email }
             ]
         });
-        console.log(req.body);
-        
+
         if (user) return res.status(400).json("user Already exist");
         const hashpassword = await bcryptjs.hash(password, 10);
         const newuser = await Wholesalermodel.create({
@@ -208,7 +207,11 @@ export const deleteproduct = async (req, res) => {
                 { message: "Wholesaler or Product not found" }
             )
         }
-        res.status(201).json(updatedwholesaler);
+        res.status(200).json(
+            {
+                message: "Product deleted successfully",
+                updatedwholesaler
+            });
     } catch (error) {
         res.status(500).json({
             message: error
@@ -254,9 +257,11 @@ export const updatewholesaler = async (req, res) => {
                 products: products,
             }
         )
+        const allproducts = await Wholesalermodel.findOne({ _id: id }).populate("products");
         res.status(201).json({
             message: "Wholesaler Updated",
-            data: updatedwholesalers
+            updatedwholesalers,
+            allproducts
         })
     } catch (error) {
         res.status(500).json({

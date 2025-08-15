@@ -14,19 +14,17 @@ export const Addproduct = (id, product) => async (dispatch) => {
             ...wholesaler,
             products: updateproducts
         };
-        const res = await API.patch(`/api/wholesalers/${id}`, updatedwholesaler);
-        const loginwholesaler = await API.get(`/api/wholesalers/${id}`);
-        dispatch(loadloginuser(loginwholesaler.data.data));
-        toast.success("Product Created!");
+        const loginwholesaler = await API.patch(`/api/wholesalers/${id}`, updatedwholesaler);
+        dispatch(loadloginuser(loginwholesaler.data.allproducts));
+        toast.success("Product created successfully!");
     } catch (error) {
-        console.log(error);
+        toast.error(error.message);
     }
 }
 
 export const Loadproducts = () => async (dispatch) => {
     try {
         const res = await API.get("/api/products");
-        console.log(res.data.data);
         dispatch(LoadProducts(res.data.data));
     } catch (error) {
         console.log(error);
@@ -67,7 +65,7 @@ export const UpdateProduct = (id, loginuser, product) => async (dispatch) => {
     }
     if (loginusertype == "Semiwholesaler") {
         try {
-            await API.patch(`/api/semiwholesalers/${loginuser._id}/products/${id}`,product);
+            await API.patch(`/api/semiwholesalers/${loginuser._id}/products/${id}`, product);
             const singleproduct = await API.get(`/api/semiwholesalers/${loginuser._id}/products/${id}`);
             dispatch(LoadSingleproduct(singleproduct.data));
             toast.success("product updated");
@@ -87,11 +85,13 @@ export const crruserproducts = (user) => async (dispatch) => {
 
 export const deleteproduct = (productid, loginuser) => async (dispatch) => {
     if (loginuser.usertype == "Wholesaler") {
+        let wholesalerproduct;
         try {
-            const wholesalerproduct = await API.delete(`/api/wholesalers/${loginuser._id}/products/${productid}`);
-            const products = await API.get(`/api/wholesalers/${loginuser._id}/products`);
-            dispatch(LoadProducts(products.data));
-            toast.error("product deleted");
+            wholesalerproduct = await API.delete(`http://localhost:8080/api/wholesalers/${loginuser._id}/products/${productid}`);
+            console.log(wholesalerproduct);
+            dispatch(LoadProducts(wholesalerproduct.data.updatedwholesaler
+            ));
+            toast.error(wholesalerproduct.data.message);
         } catch (error) {
             console.log(error);
         }

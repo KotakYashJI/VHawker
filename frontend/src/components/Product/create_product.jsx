@@ -126,7 +126,7 @@ const CreateProduct = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="bg-[#00ADB5] hover:bg-[#00bfcf] w-1/3 text-white px-6 py-3 rounded-lg text-lg font-semibold items-center cursor-pointer transition duration-300"
+            className="bg-[#00ADB5] hover:bg-[#00bfcf] w-[40%] text-white px-6 py-3 rounded-lg text-lg font-semibold items-center cursor-pointer transition duration-300"
           >
             Create
           </button>
