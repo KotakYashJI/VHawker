@@ -24,7 +24,6 @@ const Paymentpage = lazy(() => import('../components/Product/paymentpage'));
 const ContactPage = lazy(() => import('../pages/contactpage'));
 const Authroute = lazy(() => import('./authroute'));
 const Loginuserproducts = lazy(()=> import("../components/Product/loginuserproducts"));
-const baseurl = "https://vhawker.onrender.com";
 
 const Mainroute = () => {
   return (
@@ -33,7 +32,7 @@ const Mainroute = () => {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path={`${baseurl}/contact`} element={<ContactPage />} />
+          <Route path='/contact' element={<ContactPage />} />
           <Route
             path='/wholesaler/create-product'
             element={
@@ -62,13 +61,13 @@ const Mainroute = () => {
             }
           />
 
-          <Route path={`${baseurl}/hawker/register`}
+          <Route path='/hawker/register'
             element={
               <Unauthroute>
                 <Hawkerregister />
               </Unauthroute>} />
 
-          <Route path={`${baseurl}/hawker/login`} element={<Unauthroute userType="hawker"><Hawkerlogin /></Unauthroute>} />
+          <Route path='/hawker/login' element={<Unauthroute userType="hawker"><Hawkerlogin /></Unauthroute>} />
           <Route
             path='/hawker'
             element={

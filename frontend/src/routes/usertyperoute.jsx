@@ -9,10 +9,9 @@ const Usertyperoute = ({ children, userType }) => {
   const loginuser = useSelector((state) => state.user.Loginuser);
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
-  const baseurl = "https://vhawker.onrender.com";
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUser = async() => {
       if (!loginuser || !loginuser._id) {
         await dispatch(LoadLoginuser());
       }
@@ -22,24 +21,24 @@ const Usertyperoute = ({ children, userType }) => {
     fetchUser();
   }, [dispatch]);
 
-
+  
   useEffect(() => {
     if (loading) return;
 
     const loginUserType = loginuser?.usertype?.toLowerCase();
     console.log(loginUserType);
-
+    
     const expectedUserType = userType?.toLowerCase();
-
+  
     if (!loginUserType) {
-      navigate(`${baseurl}/${expectedUserType}/login`, { replace: true });
+      navigate(`/${expectedUserType}/login`, { replace: true });
       return;
     }
 
     if (loginUserType === expectedUserType) {
       setAuthorized(true);
     } else {
-      navigate(`${baseurl}/${loginUserType}`, { replace: true });
+      navigate(`/${loginUserType}`, { replace: true });
     }
   }, [loading, loginuser?.usertype, userType, navigate]);
 
