@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import Footer from './footer';
 
 const FadeInSection = ({ children }) => {
+  const baseurl = "https://vhawker.onrender.com";
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
@@ -97,19 +98,19 @@ const Home = () => {
               {
                 title: 'Hawker',
                 desc: 'Access Semi-Wholesaler or Wholesaler products. Place orders quickly and easily.',
-                link: '/hawker',
+                link: `${baseurl}/hawker`,
                 color: 'bg-yellow-400 hover:bg-yellow-500',
               },
               {
                 title: 'Semi-Wholesaler',
                 desc: 'Buy from Wholesalers and manage your own stock to sell to Hawkers.',
-                link: '/semiwholesaler',
+                link: `${baseurl}/semiwholesaler`,
                 color: 'bg-green-400 hover:bg-green-500',
               },
               {
                 title: 'Wholesaler',
                 desc: 'Upload and manage your catalog. Supply bulk products to Semi-Wholesalers and Hawkers.',
-                link: '/wholesaler',
+                link: `${baseurl}/wholesaler`,
                 color: 'bg-indigo-400 hover:bg-indigo-500',
               },
             ].map((role, i) => (
@@ -127,7 +128,7 @@ const Home = () => {
           </div>
         </section>
       </FadeInSection>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
