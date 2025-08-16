@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -96,8 +95,6 @@ const ContactPage = () => {
             Send Message
           </button>
         </form>
-
-        {/* Contact Info */}
         <div className="w-full lg:w-1/3 bg-white rounded-xl shadow-lg p-6 space-y-6">
           <div className="flex items-start gap-4">
             <FontAwesomeIcon icon={faMapMarkerAlt} className="text-[#00ADB5] text-2xl mt-1" />
@@ -124,8 +121,6 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Map */}
       <div className="w-full mt-12">
         <iframe
           className="w-full h-64 rounded-xl border"

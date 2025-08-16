@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react'; // Optional: icon for better UI
+import { ArrowLeft } from 'lucide-react';
 
 const PageNotFound = () => {
   const navigate = useNavigate();

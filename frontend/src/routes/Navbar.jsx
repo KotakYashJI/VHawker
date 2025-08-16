@@ -120,7 +120,7 @@ const Navbar = () => {
               <span>
                 Role: <span className="capitalize font-medium">{user?.usertype}</span>
               </span>
-              {user.usertype !== "Wholesaler" || user.usertype !== "admin" && <span>
+              {user.usertype === "Semiwholesaler" && <span>
                 Products : <span
                   onClick={() => handleuserproducts(user)}
                   className='capitalize font-medium cursor-pointer hover:text-blue-400'>products</span>

@@ -27,8 +27,8 @@ export const Loginuser = (user) => async (dispatch) => {
 
 export const LoadLoginuser = () => async (dispatch) => {
    try {
-      const reponse = await API.get("/api/users/loadloginuser");
-      dispatch(loadloginuser(reponse.data.user));
+      const response = await API.get("/api/users/loadloginuser");
+      dispatch(loadloginuser(response.data.user));
    } catch (error) {
       console.log(error);
    }

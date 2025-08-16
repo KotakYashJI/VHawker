@@ -1,5 +1,3 @@
-import React from "react";
-
 const About = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex items-center justify-center px-4 py-10">

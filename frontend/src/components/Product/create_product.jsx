@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Addproduct } from '../../actions/Productaction';
 import { nanoid } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 
 const CreateProduct = () => {
   const [inputType, setInputType] = useState("url"); // "url" or "upload"

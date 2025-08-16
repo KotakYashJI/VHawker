@@ -1,21 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { LoadLoginuser } from "../../actions/Useraction";
-import { crruserproducts } from "../../actions/Productaction";
 import { useNavigate } from "react-router-dom";
 
 const loginuserproducts = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.user.Loginuser);
-    const products = useSelector((state) => state.product.products);
 
     useEffect(() => {
         dispatch(LoadLoginuser());
     }, []);
 
     useEffect(() => {
-        dispatch(crruserproducts(user));
     }, [user]);
 
     return (
@@ -23,7 +20,7 @@ const loginuserproducts = () => {
             <h1 className="text-4xl font-bold text-center mb-10 text-[#222831]">You're Products</h1>
             <div className="w-full">
                 <div className="flex flex-wrap justify-center gap-10 mt-10">
-                    {products?.map((product) => (
+                    {user?.products?.map((product) => (
                         <div
                             key={product?.id}
                             className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white rouded-xl shadow-lg hover:shadow-2xl

@@ -28,7 +28,6 @@ const Home = () => {
 
   return (
     <div className="bg-white text-gray-800">
-      {/* Hero Section */}
       <div className="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-24 px-6 text-center shadow-md rounded-b-3xl">
         <motion.h1
           className="text-5xl sm:text-6xl font-extrabold mb-6"
@@ -48,14 +47,13 @@ const Home = () => {
         </motion.p>
         <motion.button
           onClick={scrollToRegister}
-          className="mt-10 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full shadow-lg"
+          className="mt-10 px-6 py-3 cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full shadow-lg"
           whileHover={{ scale: 1.05 }}
         >
           Register Now
         </motion.button>
       </div>
 
-      {/* How to Use Section */}
       <FadeInSection>
         <section className="py-16 px-6 text-center border-b border-gray-200">
           <h2 className="text-3xl font-bold mb-4">How Can You Use Vhawker?</h2>
