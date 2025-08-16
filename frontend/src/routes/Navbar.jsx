@@ -32,17 +32,11 @@ const Navbar = () => {
   }
 
   const toggleMenu = () => {
-    setMenuOpen(true);
-    setTimeout(() => {
-      setMenuOpen(false);
-    }, 1500);
+    setMenuOpen((prev)=>!prev);
   };
 
   const toggleProfile = () => {
-    setUserProfileOpen(true);
-    setTimeout(() => {
-      setUserProfileOpen(false);
-    }, 1500);
+    setUserProfileOpen((prev) => !prev);
   };
 
   return (
