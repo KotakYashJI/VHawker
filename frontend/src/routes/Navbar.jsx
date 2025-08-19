@@ -1,18 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadLoginuser, Logoutuser } from '../actions/Useraction';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Brain } from 'lucide-react';
 import { crruserproducts } from "../actions/Productaction";
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.Loginuser);
 
+  console.log(user);
+
   const [userProfileOpen, setUserProfileOpen] = useState(false);
+  const divref = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -32,12 +36,29 @@ const Navbar = () => {
   }
 
   const toggleMenu = () => {
-    setMenuOpen((prev)=>!prev);
+    setMenuOpen((prev) => !prev);
   };
 
   const toggleProfile = () => {
     setUserProfileOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    const invarvladata = setInterval(() => {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+
+      if (divref.current) {
+        divref.current.style.boxShadow = `0 4px 18px rgb(${r},${g},${b})`
+      }
+
+    }, 500);
+
+    return (() => {
+      clearInterval(invarvladata);
+    })
+  }, []);
 
   return (
     <>
@@ -62,9 +83,17 @@ const Navbar = () => {
           {user?.usertype && (
             <>
               {user.usertype !== "Wholesaler" && user.usertype !== "admin" && (
-                <div className="text-black cursor-pointer" onClick={() => navigate('/cart')}>
-                  <ShoppingCart />
-                </div>
+                <>
+                  <div
+                    ref={divref}
+                    className={`cursor-pointer rounded-full text-white bg-black`}
+                    onClick={() => toast.info("under working")}>
+                    <Brain />
+                  </div>
+                  <div className="text-black cursor-pointer" onClick={() => navigate('/cart')}>
+                    <ShoppingCart />
+                  </div>
+                </>
               )}
               <FontAwesomeIcon
                 icon={faUser}
