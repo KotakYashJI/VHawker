@@ -82,14 +82,14 @@ const Navbar = () => {
         <div className="flex items-center gap-6">
           {user?.usertype && (
             <>
+              <div
+                ref={divref}
+                className={`cursor-pointer rounded-full text-white bg-black`}
+                onClick={() => toast.info("under working")}>
+                <Brain />
+              </div>
               {user.usertype !== "Wholesaler" && user.usertype !== "admin" && (
                 <>
-                  <div
-                    ref={divref}
-                    className={`cursor-pointer rounded-full text-white bg-black`}
-                    onClick={() => toast.info("under working")}>
-                    <Brain />
-                  </div>
                   <div className="text-black cursor-pointer" onClick={() => navigate('/cart')}>
                     <ShoppingCart />
                   </div>
