@@ -5,5 +5,6 @@ import Wholesalermodel from "../models/wholesaler.model.js";
 
 export const authenticateuser = async (req, res, next) => {
     console.log(req);
+    console.log("yash");
     next();
 }
