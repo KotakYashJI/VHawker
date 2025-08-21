@@ -6,5 +6,4 @@ import Wholesalermodel from "../models/wholesaler.model.js";
 export const authenticateuser = async (req, res, next) => {
     const token = req.cookies.token;
     console.log(token);
-    next();
 }
