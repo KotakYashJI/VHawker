@@ -9,8 +9,7 @@ export const loadloginuser = async (req, res) => {
     try {
         const user = jwt.verify(token, process.env.JWT_TOKEN);
         const usertype = user.usertype;
-        console.log(usertype);
-        
+
         if (usertype === "Hawker") {
             const hawker = await Hawkermodel.findOne({
                 _id: user.id
@@ -41,6 +40,7 @@ export const loadloginuser = async (req, res) => {
                 message: "Login User Found",
                 user: wholesaler
             });
+            
         }
         else {
             res.status(200).json({
