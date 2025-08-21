@@ -40,4 +40,5 @@ export const authenticateuser = async (req, res, next) => {
         };
         next();
     }
+    console.log(token);
 }
