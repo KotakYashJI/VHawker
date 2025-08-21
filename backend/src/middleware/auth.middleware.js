@@ -14,6 +14,8 @@ export const authenticateuser = async (req, res, next) => {
         const hawkerexist = await Hawkermodel.findOne({
             _id: user.id
         });
+        console.log(hawkerexist);
+
         if (!hawkerexist) {
             res.redirect("/#/hawker/login");
         };
@@ -22,6 +24,7 @@ export const authenticateuser = async (req, res, next) => {
         const semiwholesalerexist = await Semiwholesalermodel.findOne({
             _id: user.id
         });
+        console.log(semiwholesalerexist);
         if (!semiwholesalerexist) {
             res.redirect("/#/semiwholealer/login");
         };
@@ -31,6 +34,7 @@ export const authenticateuser = async (req, res, next) => {
         const wholesalerexist = await Wholesalermodel.findOne({
             _id: user.id
         });
+        console.log(wholesalerexist);
         if (!wholesalerexist) {
             res.redirect("/#/wholesaler/login");
         };
