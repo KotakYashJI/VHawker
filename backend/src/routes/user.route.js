@@ -4,7 +4,7 @@ import { authenticateuser } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/loadloginuser",authenticateuser, loadloginuser);
+router.get("/loadloginuser", authenticateuser, loadloginuser);
 
 router.post("/logoutuser",logoutuser);
 
