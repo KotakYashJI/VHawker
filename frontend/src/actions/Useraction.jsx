@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { AddUsers, loadloginuser, Loadusers } from "../slices/Userslice";
 import API from "../api";
+import axios from "axios";
 
 export const registeruser = (newuser) => async (dispatch) => {
    try {
@@ -29,7 +30,7 @@ export const LoadLoginuser = () => async (dispatch) => {
    try {
       const response = await API.get("/api/users/loadloginuser");
       console.log(response);
-      dispatch(loadloginuser(response.data.user));
+      dispatch(loadloginuser(response.data.loginuser));
    } catch (error) {
       console.log(error);
    }

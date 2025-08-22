@@ -5,44 +5,30 @@ import jwt from "jsonwebtoken";
 
 export const loadloginuser = async (req, res) => {
     const token = req.cookies.token;
-    if (!token) return res.status(401).json("User Not Authenticated please login");
     try {
         const user = jwt.verify(token, process.env.JWT_TOKEN);
         const usertype = user.usertype;
-
+        let loginuser;
         if (usertype === "Hawker") {
-            const hawker = await Hawkermodel.findOne({
-                _id: user.id
-            });
-            if (!hawker) return res.status(400).json({ message: "User Not Found!" });
-            res.status(200).json({
-                message: "Login User Found",
-                user: hawker,
-                toke: user
-            });
+            loginuser = await Hawkermodel.findOne({ _id: user.id });
         }
         else if (usertype === "Semiwholesaler") {
-            const semiwholesaler = await Semiwholesalermodel.findOne({
-                _id: user.id
-            });
-            if (!semiwholesaler) return res.status(400).json({ message: "User Not Found!" });
-            res.status(200).json({
-                message: "Login User Found",
-                user: semiwholesaler
-            });
+            loginuser = await Semiwholesalermodel.findOne({ _id: user.id });
         }
-        else if (usertype === "Wholesaler") {
-            const wholesaler = await Wholesalermodel.findOne({
-                _id: user.id
-            });
-            if (!wholesaler) return res.status(400).json({ message: "User Not Found!" });
-            res.status(200).json({
-                message: "Login User Found",
-                user: wholesaler
-            });
+        else {
+            loginuser = await Wholesalermodel.findOne({ _id: user.id });
         }
+        if (!loginuser) return res.status(404).json({
+            message: "User not found",
+        });
+        res.status(200).json({
+            message: "Login user found",
+            loginuser
+        })
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({
+            message: error
+        });
     }
 }
 

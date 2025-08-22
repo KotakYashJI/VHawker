@@ -17,7 +17,7 @@ export const registerhawker = (newhawker) => async (dispatch) => {
 export const LoginHawker = (hawker) => async (dispatch) => {
    let loginhawker;
    try {
-      loginhawker = await API.post("http://localhost:8080/api/hawkers/login", hawker);
+      loginhawker = await API.post("/api/hawkers/login", hawker);
       dispatch(loadloginuser(loginhawker.data.user));
       toast.success(loginhawker.data.message);
    } catch (error) {
