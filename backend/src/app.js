@@ -10,7 +10,7 @@ import Orderroute from "./routes/order.route.js";
 import Contactroute from "./routes/contact.route.js";
 import Adminroute from "./routes/admin.route.js";
 import cors from "cors";
-import cookieparse from "cookie-parser"
+import cookieparser from "cookie-parser"
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ connectdatabase();
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://vhawker.onrender.com"
+    process.env.FRONTEND_URL
 ];
 
 app.use(cors({
@@ -35,7 +35,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(cookieparse());
+app.use(cookieparser());
 
 app.get("/", (req, res) => {
     res.send("Vhawker backend is running");

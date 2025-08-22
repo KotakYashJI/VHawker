@@ -40,14 +40,6 @@ export const loadloginuser = async (req, res) => {
                 message: "Login User Found",
                 user: wholesaler
             });
-            
-        }
-        else {
-            res.status(200).json({
-                message: "Login User Found",
-                user: hawker,
-                toke: user
-            });
         }
     } catch (error) {
         res.status(500).json(error);

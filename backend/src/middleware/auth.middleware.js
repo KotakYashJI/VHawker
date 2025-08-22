@@ -4,7 +4,39 @@ import Semiwholesalermodel from "../models/semiwholesaler.model.js";
 import Wholesalermodel from "../models/wholesaler.model.js";
 
 export const authenticateuser = async (req, res, next) => {
-    console.log(req);
-    console.log("yash");
-    next();
+    const token = req.cookies.token;
+    console.log(token);
+    if (!token) return res.status(400).json({
+        message: "user not authorized please login"
+    });
+    const user = jwt.verify(token, process.env.JWT_TOKEN);
+    const usertype = user.usertype;
+
+    if (usertype === "Hawker") {
+        const hawkerexist = await Hawkermodel.findOne({
+            _id: user.id
+        });
+        
+        next();
+    }
+    if (usertype === "Semiwholesaler") {
+        const semiwholesalerexist = await Semiwholesalermodel.findOne({
+            _id: user.id
+        });
+        
+        if (!semiwholesalerexist) {
+            res.redirect("/#/semiwholealer/login");
+        };
+        next();
+    }
+    else {
+        const wholesalerexist = await Wholesalermodel.findOne({
+            _id: user.id
+        });
+
+        if (!wholesalerexist) {
+            res.redirect("/#/wholesaler/login");
+        };
+        next();
+    }
 }
