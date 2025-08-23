@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const addtocart = (buyerid, product, sellerId) => async (dispatch) => {
   try {
-    const existcart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existcart = JSON.parse(localStorage.getItem(`${buyerid}cart`)) || [];
 
     if (existcart.length > 0) {
       const existsellerId = existcart[0].sellerId;
@@ -36,7 +36,7 @@ export const addtocart = (buyerid, product, sellerId) => async (dispatch) => {
       });
     }
 
-    localStorage.setItem("cart", JSON.stringify(existcart));
+    localStorage.setItem(`${buyerid}cart`, JSON.stringify(existcart));
     dispatch(AddTocart(existcart));
     toast.success("Product added to cart");
   } catch (error) {
@@ -48,27 +48,27 @@ export const addtocart = (buyerid, product, sellerId) => async (dispatch) => {
 export const Updatecart = (cart) => (dispatch) => {
   try {
     dispatch(LoadCart(cart));
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem(`${buyerid}cart`, JSON.stringify(cart));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const IncreaseQuantity = (index) => (dispatch) => {
-  const cartproducts = JSON.parse(localStorage.getItem("cart"));
+export const IncreaseQuantity = (index, buyerid) => (dispatch) => {
+  const cartproducts = JSON.parse(localStorage.getItem(`${buyerid}cart`));
   const maxQty = cartproducts[index].maxquantity || 1;
 
   if (cartproducts[index].productquantity < maxQty) {
     cartproducts[index].productquantity += 1;
-    localStorage.setItem("cart", JSON.stringify(cartproducts));
+    localStorage.setItem(`${buyerid}cart`, JSON.stringify(cartproducts));
     dispatch(LoadCart(cartproducts));
   } else {
     toast.warning("Reached max quantity");
   }
 };
 
-export const DecreaseQuantity = (index) => (dispatch) => {
-  const cartproducts = JSON.parse(localStorage.getItem("cart"));
+export const DecreaseQuantity = (index, buyerid) => (dispatch) => {
+  const cartproducts = JSON.parse(localStorage.getItem(`${buyerid}cart`));
 
   if (cartproducts[index].productquantity > 1) {
     cartproducts[index].productquantity -= 1;
@@ -77,20 +77,22 @@ export const DecreaseQuantity = (index) => (dispatch) => {
     toast.error("Product removed from cart");
   }
 
-  localStorage.setItem("cart", JSON.stringify(cartproducts));
+  localStorage.setItem(`${buyerid}cart`, JSON.stringify(cartproducts));
   dispatch(LoadCart(cartproducts));
 };
 
-export const LoadCartproducts = () => async (dispatch) => {
+export const LoadCartproducts = (buyerid) => async (dispatch) => {
   try {
-    const cartproducts = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log(buyerid);
+    
+    const cartproducts = JSON.parse(localStorage.getItem(`${buyerid}cart`)) || [];
 
     if (cartproducts.length === 0) {
       dispatch(LoadCart([]));
       return;
     }
 
-    const res = await API.get("/api/wholesalers");
+    const res = await API.get("http://localhost:8080/api/wholesalers");
     const wholesalers = res.data || [];
 
     const updatedCart = cartproducts.map((cartItem) => {
@@ -109,7 +111,10 @@ export const LoadCartproducts = () => async (dispatch) => {
       };
     });
 
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    console.log(updatedCart);
+    
+
+    localStorage.setItem(`${buyerid}cart`, JSON.stringify(updatedCart));
     dispatch(LoadCart(updatedCart));
   } catch (error) {
     console.log("Load cart error:", error);
@@ -158,7 +163,7 @@ export const paymentgateway = (loginuser, orderdata, paymentdetails) => async (d
       console.log(order);
     }
 
-    localStorage.removeItem("cart");
+    localStorage.removeItem(`${buyerId}cart`);
     dispatch(ClearCart());
     toast.success("Order placed!");
 

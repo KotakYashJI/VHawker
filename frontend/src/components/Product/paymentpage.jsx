@@ -13,7 +13,7 @@ const PaymentPage = () => {
   const [upiPin, setUpiPin] = useState('');
 
   useEffect(() => {
-    dispatch(LoadCartproducts());
+    dispatch(LoadCartproducts(loginuser._id));
     dispatch(LoadLoginuser());
   }, [dispatch]);
 

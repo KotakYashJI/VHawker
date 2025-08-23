@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   LoadCartproducts,
@@ -7,22 +7,28 @@ import {
 } from "../../actions/Cartaction";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { LoadLoginuser } from "../../actions/Useraction";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.Cart);
+  const loginuser = useSelector((state) => state.user.Loginuser);
 
   useEffect(() => {
-    dispatch(LoadCartproducts());
+    dispatch(LoadLoginuser());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(LoadCartproducts(loginuser._id));
+  }, [loginuser._id]);
+
   const handleIncrease = (index) => {
-    dispatch(IncreaseQuantity(index));
+    dispatch(IncreaseQuantity(index, loginuser._id));
   };
 
   const handleDecrease = (index) => {
-    dispatch(DecreaseQuantity(index));
+    dispatch(DecreaseQuantity(index, loginuser._id));
   };
 
   const handleCheckout = () => {
