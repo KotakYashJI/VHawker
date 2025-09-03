@@ -26,6 +26,7 @@ const Paymentpage = lazy(() => import('../components/Product/paymentpage'));
 const ContactPage = lazy(() => import('../pages/contactpage'));
 const Authroute = lazy(() => import('./authroute'));
 const Loginuserproducts = lazy(() => import("../components/Product/loginuserproducts"));
+const Aimessages = lazy(()=>import("../components/message/aimessages"));
 
 const Mainroute = () => {
   return (
@@ -51,6 +52,7 @@ const Mainroute = () => {
               }
             />
             <Route path='/about' element={<About />} />
+            <Route path='/aimessage' element={<Aimessages />} />
             <Route path='/payment' element={<Paymentpage />} />
             <Route path='/:usertype/products' element={<Loginuserproducts />} />
 

@@ -85,7 +85,7 @@ const Navbar = () => {
               <div
                 ref={divref}
                 className={`cursor-pointer rounded-full text-white bg-black`}
-                onClick={() => toast.info("under working")}>
+                onClick={() => navigate("/aimessage")}>
                 <Brain />
               </div>
               {user.usertype !== "Wholesaler" && user.usertype !== "admin" && (
