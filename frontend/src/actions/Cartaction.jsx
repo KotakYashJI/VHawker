@@ -84,7 +84,7 @@ export const DecreaseQuantity = (index, buyerid) => (dispatch) => {
 export const LoadCartproducts = (buyerid) => async (dispatch) => {
   try {
     console.log(buyerid);
-    
+
     const cartproducts = JSON.parse(localStorage.getItem(`${buyerid}cart`)) || [];
 
     if (cartproducts.length === 0) {
@@ -92,7 +92,7 @@ export const LoadCartproducts = (buyerid) => async (dispatch) => {
       return;
     }
 
-    const res = await API.get("http://localhost:8080/api/wholesalers");
+    const res = await API.get("/api/wholesalers");
     const wholesalers = res.data || [];
 
     const updatedCart = cartproducts.map((cartItem) => {
@@ -112,7 +112,7 @@ export const LoadCartproducts = (buyerid) => async (dispatch) => {
     });
 
     console.log(updatedCart);
-    
+
 
     localStorage.setItem(`${buyerid}cart`, JSON.stringify(updatedCart));
     dispatch(LoadCart(updatedCart));
